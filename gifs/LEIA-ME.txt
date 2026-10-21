@@ -2,6 +2,8 @@ Coloque aqui os GIFs (ou PNGs) SEM FUNDO, com estes nomes:
 
   sonic-classico.gif   -> Sonic clássico (o redondinho dos anos 90)
   sonic.gif            -> Sonic moderno (de preferência correndo)
+  shadow.gif           -> Shadow (de preferência patinando)
+  tails.gif            -> Tails (de preferência voando com as caudas)
   gojo.gif             -> Gojo Satoru
   iggy.gif             -> Iggy
   zero-two.gif         -> Zero Two

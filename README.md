@@ -1,7 +1,7 @@
 # Rebsversary 🖤
 
 Página de aniversário emo para a Rebeca (29 anos): glitch, neon, chuva de 🖤, bolo para soprar,
-Top 8 no estilo MySpace e personagens passeando pela tela (Sonic, Gojo, Iggy, Zero Two, Katarina, LeBlanc, Ahri).
+Top 8 no estilo MySpace e personagens passeando pela tela (Sonic, Shadow, Tails, Gojo, Iggy, Zero Two, Katarina, LeBlanc, Ahri).
 
 ## Como abrir
 

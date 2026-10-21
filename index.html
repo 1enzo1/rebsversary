@@ -175,7 +175,7 @@ input[type=text]:focus{border-color:var(--pink)}
 .top8{margin-top:22px}
 .top8 h2,.recados h2{font-family:'Pirata One';font-weight:400;font-size:2rem;margin:0 0 4px}
 .top8 .sub,.recados .sub{color:var(--muted);font-size:12px;margin:0 0 18px}
-.grid8{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.grid8{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .amigo{background:#0b090e;border:1px solid #2a2230;padding:12px 10px;cursor:pointer;text-align:center;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s;border-radius:4px}
 .amigo:hover{transform:translateY(-4px) rotate(-1deg);border-color:var(--pink);box-shadow:0 0 24px #ff2e8844}
 .amigo .av{aspect-ratio:1;width:100%;margin-bottom:8px}
@@ -213,6 +213,8 @@ footer b{color:var(--pink2);font-weight:400}
 .sp-clonar .sp-body{filter:drop-shadow(0 0 10px #a35cffaa)}
 .sp-teleportar .sp-body{filter:drop-shadow(0 0 8px #e3123d99)}
 .sp-correr .sp-body{filter:drop-shadow(-6px 0 4px #4fa3ff88)}
+.sp-deslizar .sp-body{filter:drop-shadow(0 0 8px #d1122eaa)}
+.sp-voar .sp-body{filter:drop-shadow(0 0 8px #ff9d2e88)}
 .sprite.blink .sp-body{animation:blink .35s ease-out}
 @keyframes blink{0%{opacity:0;filter:brightness(4) drop-shadow(0 0 20px #ff2244)}100%{opacity:1}}
 .clone{pointer-events:none;animation:sumir 2.6s forwards}
@@ -227,6 +229,13 @@ footer b{color:var(--pink2);font-weight:400}
   border-radius:14px;border:2px solid #000;box-shadow:3px 3px 0 var(--pink);pointer-events:none;animation:pop .25s ease-out;z-index:2;transition:opacity .25s}
 .balao.saindo{opacity:0}
 @keyframes pop{from{scale:.5;opacity:0}}
+
+/* ---------- chaos control (Shadow) ---------- */
+#chaos{position:fixed;inset:0;z-index:69;pointer-events:none;display:grid;place-items:center;opacity:0;
+  background:radial-gradient(circle at 50% 50%,rgba(234,255,234,.85),rgba(125,255,176,.45) 35%,rgba(0,0,0,.6) 80%)}
+#chaos b{font-family:'Pirata One';font-weight:400;font-size:clamp(3rem,12vw,8rem);color:#fff;text-shadow:0 0 20px #2bd96b,0 0 50px #2bd96b,4px 4px 0 #000}
+#chaos.on{animation:chaos 1.2s ease-out}
+@keyframes chaos{0%{opacity:0;filter:invert(1)}8%{opacity:1;filter:invert(1)}20%{filter:none}75%{opacity:1}100%{opacity:0}}
 
 /* ---------- vazio infinito ---------- */
 #vazio{position:fixed;inset:0;z-index:70;pointer-events:none;display:grid;place-items:center;overflow:hidden;
@@ -289,6 +298,7 @@ footer b{color:var(--pink2);font-weight:400}
 
 <canvas id="fx"></canvas>
 <div id="palco"></div>
+<div id="chaos"><b>Chaos Control!</b></div>
 <div id="vazio"><div class="vz-txt"><span class="vz-jp">領域展開</span><b>Vazio Infinito</b><small>expansão de domínio: carinho infinito</small></div></div>
 
 <div class="marquee"><div class="mq-track" id="mq"></div></div>
@@ -365,12 +375,12 @@ footer b{color:var(--pink2);font-weight:400}
   <section class="card top8">
     <div class="label">top 8</div>
     <h2>Top 8 da <span data-nome>Rebeca</span></h2>
-    <p class="sub">clica em cada um pra ver o que acontece 👀</p>
+    <p class="sub">(que virou top <span id="qtdTop"></span>, porque ela merece) · clica em cada um pra ver o que acontece 👀</p>
     <div class="grid8" id="top8"></div>
   </section>
 
   <section class="card recados">
-    <div class="label">recados (8)</div>
+    <div class="label">recados (<span id="qtdRecados"></span>)</div>
     <h2>Recados</h2>
     <p class="sub">todo mundo postou à meia-noite, claro</p>
     <div id="recados"></div>
@@ -428,6 +438,8 @@ const CONFIG = {
   gifs: {
     sonicClassico: 'gifs/sonic-classico.gif',
     sonic:         'gifs/sonic.gif',
+    shadow:        'gifs/shadow.gif',
+    tails:         'gifs/tails.gif',
     gojo:          'gifs/gojo.gif',
     iggy:          'gifs/iggy.gif',
     zeroTwo:       'gifs/zero-two.gif',
@@ -453,7 +465,7 @@ Feliz aniversário. 🖤`,
 
 /* =====================================================================
    PERSONAGENS — comportamento, falas e recados
-   comportamentos: rolar, correr, flutuar, pular, espiar, teleportar, clonar, orbitar, vagar
+   comportamentos: rolar, correr, deslizar, voar, flutuar, pular, espiar, teleportar, clonar, orbitar, vagar
    ===================================================================== */
 const PERSONAGENS = [
   { id:'sonicClassico', nome:'Sonic Clássico', origem:'Sonic 1 · 1991', emoji:'🦔', cor:'#2f6bff', comp:'rolar',
@@ -462,6 +474,12 @@ const PERSONAGENS = [
   { id:'sonic', nome:'Sonic', origem:'Sonic the Hedgehog', emoji:'💨', cor:'#1a8cff', comp:'correr',
     falas:['Gotta go fast! 💨','29? Tá rápida, hein!','Bora, o bolo não se come sozinho!'],
     recado:'Passei aqui correndo só pra dizer: feliz aniversário! Já voltei pra Green Hill, beijo 💨' },
+  { id:'shadow', nome:'Shadow', origem:'Sonic Adventure 2', emoji:'⚡', cor:'#d1122e', comp:'deslizar',
+    falas:['Hmph. Parabéns, eu acho.','Eu sou a forma de vida suprema.','Eu também só uso preto. 🖤'],
+    recado:'Hmph. Eu não ligo pra aniversários. ...Mas desse eu vim. Feliz aniversário, Rebeca. Bem-vinda ao clube do preto. 🖤' },
+  { id:'tails', nome:'Tails', origem:'Sonic the Hedgehog 2', emoji:'🔧', cor:'#ff9d2e', comp:'voar',
+    falas:['Me esperem!','Construí um bolo-robô pra você! 🔧','Olha, sem as mãos! ✈️'],
+    recado:'Fiz um aviãozinho de papel escrito PARABÉNS e mandei voando pra você. Ele caiu no bolo. Feliz aniversário mesmo assim! ✈️' },
   { id:'gojo', nome:'Gojo Satoru', origem:'Jujutsu Kaisen', emoji:'🕶️', cor:'#6fdcff', comp:'flutuar',
     falas:['Relaxa. Eu sou o mais forte. 😎','Hoje você é a mais forte. Depois de mim.','Você tá linda hoje. Eu também, óbvio.'],
     recado:'Entre o céu e a terra, só existe uma aniversariante hoje. Parabéns! (depois de mim, você é a mais forte) 🕶️' },
@@ -699,6 +717,8 @@ const INIT = {
   espiar(s) { Object.assign(s.st, { fase:'fora', tt:0, espera:rand(2, 5), lado:1 }); s.y = H * .35; s.dir = -1; s.x = W + 10; },
   teleportar(s) { s.st.tt = 0; s.st.espera = rand(2, 4); },
   clonar(s) { s.st.tt = 0; s.st.espera = rand(4, 7); },
+  deslizar(s) { s.st.faixa = rand(.3, .85); s.st.tt = 0; s.st.espera = rand(7, 12); },
+  voar(s) { s.st.alt = rand(.1, .25); },
 };
 
 const UPD = {
@@ -794,8 +814,46 @@ const UPD = {
     vagar(s, dt, 55);
     if (Math.random() < dt * 1.2) add({ ch:'💗', x: s.cx + rand(-15, 15), y: s.cy, vy: -30, vida: 1.2, tam: 12 });
   },
+  // Shadow: patina com os jatos dos sapatos e às vezes usa Chaos Control
+  deslizar(s, dt) {
+    const st = s.st;
+    s.x += s.dir * 230 * dt;
+    s.y += (H * st.faixa - s.size / 2 - s.y) * Math.min(1, dt * 3);
+    if (s.x < 0 || s.x > W - s.size) { s.dir = s.x < 0 ? 1 : -1; s.x = clamp(s.x, 0, W - s.size); st.faixa = rand(.3, .85); }
+    s.rot = 0;
+    if (Math.random() < dt * 25) add({ tipo:'bola', cor: pick(['#ff7a1a','#ffd23f','#ff3b1a']), x: s.dir > 0 ? s.x + s.size * .25 : s.x + s.size * .75, y: s.y + s.size * .95, vx: -s.dir * rand(40, 120), vy: rand(-10, 10), vida: .35, tam: rand(4, 9) });
+    st.tt += dt;
+    if (st.tt > st.espera) { st.tt = 0; st.espera = rand(8, 14); chaosControl(s, false); }
+  },
+  // Tails: voa girando as caudas no alto da tela
+  voar(s, dt) {
+    const st = s.st;
+    if (st.loop > 0) {
+      st.loop -= dt; const a = (1 - st.loop / 1.2) * Math.PI * 2;
+      s.x = st.lx + Math.sin(a) * 70 * s.dir; s.y = st.ly - (1 - Math.cos(a)) * 70; s.rot = -a * 180 / Math.PI;
+      if (Math.random() < dt * 30) brilho(s.cx, s.cy, 1, '#ffd23f');
+      if (st.loop <= 0) s.rot = 0;
+      return;
+    }
+    s.x += s.dir * 120 * dt;
+    if (s.x < 0 || s.x > W - s.size) { s.dir = s.x < 0 ? 1 : -1; s.x = clamp(s.x, 0, W - s.size); st.alt = rand(.1, .3); }
+    s.y += (H * st.alt + Math.sin(s.t * 2.2) * 26 - s.y) * Math.min(1, dt * 2);
+    s.rot = Math.sin(s.t * 2.2) * 6;
+    if (Math.random() < dt * 8) add({ ch: '·', cor: '#ffffff', x: s.dir > 0 ? s.x + 8 : s.x + s.size - 8, y: s.y + s.size * .55, vx: -s.dir * 60, vy: rand(-10, 10), vida: .5, tam: 18 });
+  },
   vagar(s, dt) { vagar(s, dt, 70); },
 };
+
+function chaosControl(s, grande) {
+  const x0 = s.cx, y0 = s.cy;
+  explosao(x0, y0, 14, { tipo:'bola', cores:['#7dffb0','#eaffea','#2bd96b'], vmin:40, vmax:200, g:0, tMin:4, tMax:10, vidaMin:.3, vidaMax:.7 });
+  const a = alvoAleatorio(s); s.x = a.x; s.st.faixa = clamp((a.y + s.size / 2) / H, .2, .85); s.y = a.y;
+  explosao(s.cx, s.cy, 14, { tipo:'bola', cores:['#7dffb0','#eaffea','#2bd96b'], vmin:40, vmax:200, g:0, tMin:4, tMax:10, vidaMin:.3, vidaMax:.7 });
+  s.el.classList.remove('blink'); void s.el.offsetWidth; s.el.classList.add('blink');
+  if (!grande) return;
+  const o = $('#chaos'); o.classList.remove('on'); void o.offsetWidth; o.classList.add('on');
+  congelado = true; setTimeout(() => { congelado = false; }, 1100);
+}
 
 function shunpo(s, alvo) {
   const x0 = s.cx, y0 = s.cy, a = alvo || alvoAleatorio(s);
@@ -823,6 +881,11 @@ const ESPECIAL = {
     const st = s.st; st.correndo = true; st.parado = 2.4; st.vel = W / 1.3;
     s.dir = Math.random() < .5 ? 1 : -1; s.x = W / 2 - s.size / 2; s.y = chao(s) - H * .1;
     fumaca(s.cx, s.y + s.size, 14, ['#9be8ff','#ffffff','#4fa3ff']); s.fala(pick(s.p.falas));
+  },
+  shadow(s) { chaosControl(s, true); setTimeout(() => s.fala(pick(['CHAOS... CONTROL! ⚡', ...s.p.falas])), 300); },
+  tails(s) {
+    const st = s.st; if (st.loop > 0) return;
+    st.loop = 1.2; st.lx = s.x; st.ly = s.y; s.fala(pick(s.p.falas));
   },
   gojo(s) { vazioInfinito(); setTimeout(() => s.fala('Vazio Infinito. Parabéns infinito. 😎', 3000), 3100); },
   iggy(s) { areia(s.cx, s.cy, 80); s.st.prox = 0; s.fala(pick(s.p.falas)); },
@@ -908,6 +971,7 @@ document.addEventListener('click', e => {
 /* =====================================================================
    TOP 8 + RECADOS
    ===================================================================== */
+$('#qtdTop').textContent = $('#qtdRecados').textContent = PERSONAGENS.length;
 PERSONAGENS.forEach((p, i) => {
   const b = document.createElement('button');
   b.className = 'amigo';
