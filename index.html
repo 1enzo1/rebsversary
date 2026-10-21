@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feliz Aniversário 🖤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Silkscreen&family=Special+Elite&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a090d; --card:#121016; --ink:#f3e9f1; --muted:#a495a8;
+  --pink:#ff2e88; --pink2:#ff7ab8; --purple:#9b5cff; --red:#e3123d; --cyan:#4fe3ff; --gold:#ffd23f;
+  --line:rgba(255,46,136,.35);
+}
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0}
+body{
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(155,92,255,.20), transparent 60%),
+    radial-gradient(ellipse at 100% 100%, rgba(255,46,136,.14), transparent 50%),
+    conic-gradient(rgba(255,255,255,.028) 90deg, transparent 0 180deg, rgba(255,255,255,.028) 0 270deg, transparent 0) 0 0/52px 52px,
+    var(--bg);
+  background-attachment:fixed;
+  color:var(--ink); font-family:'Space Mono',monospace; overflow-x:hidden; min-height:100vh;
+}
+/* scanlines + vinheta */
+body::after{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:45;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+    radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.55) 100%);
+}
+::selection{background:var(--pink);color:#000}
+button{font:inherit;color:inherit}
+
+/* ---------- portão ---------- */
+#portao{position:fixed;inset:0;z-index:90;display:grid;place-items:center;
+  background:radial-gradient(circle at 50% 40%, #1d0f22, #000 70%);transition:opacity .8s, filter .8s}
+#portao.fora{opacity:0;filter:blur(10px);pointer-events:none}
+.pt-box{width:min(430px,calc(100vw - 32px));background:#0d0b10;border:2px solid var(--pink);
+  box-shadow:8px 8px 0 #000,0 0 50px #ff2e8855;text-align:center;padding-bottom:24px}
+.pt-topo{background:var(--pink);color:#000;font-family:Silkscreen;padding:8px 12px;text-align:left;display:flex;justify-content:space-between}
+.pt-box p{margin:18px 22px 0;line-height:1.6;text-align:left}
+.pt-assunto{color:var(--pink2)}
+#entrar{margin-top:24px;background:#000;border:2px solid var(--pink);padding:14px 22px;font-family:Silkscreen;font-size:15px;
+  cursor:pointer;color:#fff;box-shadow:4px 4px 0 var(--pink);animation:pulsar 1.6s infinite;transition:transform .15s}
+#entrar:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--pink)}
+.pt-box small{display:block;margin-top:14px;color:var(--muted)}
+@keyframes pulsar{50%{box-shadow:4px 4px 0 var(--pink),0 0 28px #ff2e88aa}}
+
+/* ---------- camadas de efeito ---------- */
+#fx{position:fixed;inset:0;pointer-events:none;z-index:35}
+#palco{position:fixed;inset:0;pointer-events:none;z-index:30;overflow:hidden}
+
+/* ---------- marquee ---------- */
+.marquee{overflow:hidden;white-space:nowrap;border-block:1px solid var(--line);background:#000;
+  font-family:Silkscreen;font-size:13px;color:var(--pink2);padding:7px 0;position:relative;z-index:2}
+.mq-track{display:inline-flex;animation:mq 40s linear infinite}
+.mq-track span{padding-right:2.5rem}
+@keyframes mq{to{transform:translateX(-50%)}}
+
+/* ---------- hero ---------- */
+.hero{text-align:center;padding:56px 16px 30px;position:relative;z-index:1}
+.kicker{font-family:Silkscreen;color:var(--pink2);font-size:13px;letter-spacing:.08em;margin:0 0 14px}
+.glitch{position:relative;display:inline-block;margin:0;font-family:'Pirata One';font-weight:400;
+  font-size:clamp(2.6rem,9vw,6.4rem);line-height:1;color:#fff;text-shadow:3px 3px 0 #000}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;top:0;width:100%;clip-path:inset(0 0 100% 0)}
+.glitch::before{color:var(--cyan);transform:translateX(-3px);animation:gl1 3.2s infinite steps(1)}
+.glitch::after{color:var(--pink);transform:translateX(3px);animation:gl2 2.7s infinite steps(1)}
+@keyframes gl1{0%,86%,100%{clip-path:inset(0 0 100% 0)}88%{clip-path:inset(15% 0 60% 0)}91%{clip-path:inset(62% 0 12% 0)}94%{clip-path:inset(40% 0 42% 0)}97%{clip-path:inset(80% 0 4% 0)}}
+@keyframes gl2{0%,80%,100%{clip-path:inset(0 0 100% 0)}82%{clip-path:inset(70% 0 8% 0)}85%{clip-path:inset(8% 0 75% 0)}89%{clip-path:inset(45% 0 30% 0)}}
+.nome{font-family:'Pirata One';font-weight:400;font-size:clamp(4.6rem,17vw,11rem);margin:6px 0 0;line-height:.9;
+  background:linear-gradient(180deg,#fff 0%,#ffc2df 38%,var(--pink) 68%,#7a0f45 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 22px #ff2e8866) drop-shadow(5px 5px 0 #000)}
+.idade{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:6px;flex-wrap:wrap}
+.neon{font-family:'Pirata One';font-size:clamp(6rem,22vw,12rem);line-height:.85;color:#fff;
+  text-shadow:0 0 4px #fff,0 0 12px var(--pink),0 0 30px var(--pink),0 0 60px var(--pink),0 0 100px #ff2e8888;animation:flicker 5s infinite}
+@keyframes flicker{0%,17%,21%,24%,52%,56%,100%{opacity:1}19%,23%,54%{opacity:.35;text-shadow:none}}
+.idade .sub{font-family:'Special Elite';font-size:clamp(1rem,2.6vw,1.35rem);text-align:left;color:var(--muted);max-width:240px;line-height:1.4}
+.idade .sub b{color:var(--pink2);font-weight:400}
+.zebra{height:10px;margin:40px auto 0;max-width:1080px;background:repeating-linear-gradient(-45deg,#000 0 10px,var(--pink) 10px 20px);border:1px solid #000}
+
+/* ---------- cards / layout ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px;position:relative;z-index:1}
+.perfil{display:grid;grid-template-columns:340px 1fr;gap:22px;margin-top:30px}
+.col{display:flex;flex-direction:column;gap:22px;min-width:0}
+.card{background:linear-gradient(#15121aee,#0d0b10f2);border:1px solid #2a2230;outline:1px dashed var(--line);outline-offset:-7px;
+  padding:22px;border-radius:4px;box-shadow:0 12px 40px #0009;position:relative}
+.label{display:inline-block;font-family:Silkscreen;font-size:12px;background:var(--pink);color:#000;padding:3px 9px;margin-bottom:16px;letter-spacing:.04em}
+
+.foto{position:relative;aspect-ratio:1;background:#000;border:3px solid #fff;box-shadow:6px 6px 0 var(--pink);transform:rotate(-2deg);overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(.75);transition:filter .4s}
+.foto:hover img{filter:none}
+.foto::after{content:'♥';position:absolute;right:8px;top:4px;font-size:30px;color:var(--pink);text-shadow:2px 2px 0 #000}
+.foto-vazia{display:none;position:absolute;inset:0;place-items:center;text-align:center;font-size:64px;
+  background:repeating-linear-gradient(45deg,#111 0 12px,#18131c 12px 24px)}
+.foto-vazia small{display:block;font-size:12px;color:var(--muted);margin-top:8px;font-family:Silkscreen}
+.foto.vazia img{display:none}.foto.vazia .foto-vazia{display:grid}
+.foto-card h3{font-family:'Pirata One';font-weight:400;font-size:2.4rem;margin:22px 0 6px}
+.stats{list-style:none;margin:0;padding:0;font-size:13px;line-height:1.9}
+.stats b{color:var(--pink2);font-weight:400;font-family:Silkscreen;font-size:11px;margin-right:6px}
+.online{display:inline-flex;align-items:center;gap:6px;font-family:Silkscreen;font-size:11px;color:#7dff9b;margin-top:8px}
+.online::before{content:'';width:8px;height:8px;border-radius:50%;background:#7dff9b;box-shadow:0 0 8px #7dff9b;animation:pisca 1.2s infinite}
+@keyframes pisca{50%{opacity:.25}}
+
+/* spotify + player */
+#spotifyBox iframe{width:100%;border:0;border-radius:12px;display:block;background:#000}
+.sp-form{display:flex;flex-direction:column;gap:8px}
+.sp-form p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+input[type=text]{width:100%;background:#000;border:1px solid #3a2f40;color:#fff;padding:9px 10px;font:12px 'Space Mono';border-radius:3px;outline:none}
+input[type=text]:focus{border-color:var(--pink)}
+.btn{background:#000;border:1px solid var(--pink);color:#fff;padding:8px 12px;font-family:Silkscreen;font-size:11px;cursor:pointer;border-radius:3px;box-shadow:3px 3px 0 var(--pink);transition:transform .12s, box-shadow .12s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--pink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink)}
+.link{background:none;border:0;color:var(--pink2);font-size:11px;font-family:Silkscreen;cursor:pointer;padding:8px 0 0;text-decoration:underline}
+.erro{color:#ff6b8a !important}
+.divisor{font-family:Silkscreen;font-size:11px;color:var(--muted);text-align:center;margin:18px 0 12px;display:flex;align-items:center;gap:10px}
+.divisor::before,.divisor::after{content:'';flex:1;border-top:1px dashed #3a2f40}
+.player{background:#000;border:1px solid #2a2230;padding:12px;border-radius:6px}
+.pl-head{display:flex;align-items:center;gap:10px;font-size:12px;min-height:22px}
+#plTitulo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:16px;flex:none}
+.eq i{width:3px;height:3px;background:var(--pink);display:block}
+.player.tocando .eq i{animation:eq .8s infinite ease-in-out alternate}
+.eq i:nth-child(2){animation-delay:-.3s !important}.eq i:nth-child(3){animation-delay:-.6s !important}.eq i:nth-child(4){animation-delay:-.15s !important}.eq i:nth-child(5){animation-delay:-.45s !important}
+@keyframes eq{0%{height:3px}100%{height:16px}}
+.pl-bar{height:6px;background:#221c26;margin:10px 0;cursor:pointer;border-radius:3px;overflow:hidden}
+#plProg{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--pink))}
+.pl-ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pl-ctrl .ic{width:36px;height:32px;background:#120f15;border:1px solid #3a2f40;border-radius:4px;cursor:pointer;font-size:13px}
+.pl-ctrl .ic:hover{border-color:var(--pink)}
+.btn-file{cursor:pointer;margin-left:auto}
+
+/* carta */
+.carta{min-height:260px}
+.carta::before{content:'✉';position:absolute;right:20px;top:14px;font-size:30px;color:var(--pink);opacity:.6}
+.maquina{font-family:'Special Elite';font-size:clamp(1rem,1.9vw,1.15rem);line-height:1.75;white-space:pre-wrap;margin:0;cursor:pointer;min-height:6em}
+.cursor{display:inline-block;width:.55em;height:1.05em;background:var(--pink);vertical-align:-.15em;margin-left:2px;animation:pisca .8s steps(1) infinite}
+.assinatura{font-family:'Special Elite';color:var(--pink2);text-align:right;margin:16px 0 0;opacity:0;transition:opacity 1s}
+.assinatura.on{opacity:1}
+
+/* bolo */
+.bolo-card{text-align:center;overflow:hidden}
+.bolo{position:relative;width:min(270px,72vw);margin:16px auto 0;padding-top:110px;cursor:pointer;user-select:none}
+.velas{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;gap:14px}
+.vela{position:relative;font-family:'Pirata One';font-size:96px;line-height:.85;
+  background:repeating-linear-gradient(-45deg,var(--pink) 0 7px,#fff 7px 14px);-webkit-background-clip:text;background-clip:text;color:transparent;
+  -webkit-text-stroke:2px #000;filter:drop-shadow(0 0 10px #ff2e8888) drop-shadow(3px 3px 0 #000)}
+.vela::before{content:'';position:absolute;left:50%;top:-6px;width:3px;height:12px;margin-left:-1px;background:#222}
+.chama{position:absolute;left:50%;top:-38px;width:18px;height:30px;margin-left:-8px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;
+  background:radial-gradient(ellipse at 50% 70%,#fff 0 18%,#ffe27a 32%,#ff8a1a 58%,transparent 72%);
+  filter:drop-shadow(0 0 12px #ffb02e);animation:chama .14s infinite alternate;transform-origin:50% 90%;transition:opacity .3s, transform .3s}
+@keyframes chama{from{transform:rotate(-4deg) scaleY(1)}to{transform:rotate(4deg) scaleY(1.08)}}
+.bolo.apagado .chama{opacity:0;transform:scale(.2);animation:none}
+.camada{position:relative;margin:0 auto;border:2px solid #000;background:#19141e;box-shadow:inset 0 -10px 0 #0007}
+.camada::before{content:'';position:absolute;left:-2px;right:-2px;top:-2px;height:26px;
+  background:
+    radial-gradient(circle at 12px 14px,var(--pink) 8px,transparent 9px) 0 0/30px 26px repeat-x,
+    radial-gradient(circle at 6px 12px,var(--pink) 5px,transparent 6px) 14px 4px/44px 26px repeat-x,
+    linear-gradient(var(--pink),var(--pink)) 0 0/100% 12px no-repeat}
+.c1{width:72%;height:62px;border-radius:10px 10px 4px 4px}
+.c2{width:100%;height:84px;margin-top:-2px;border-radius:12px 12px 6px 6px}
+.c1::after,.c2::after{position:absolute;left:0;right:0;bottom:12px;font-family:Silkscreen;font-size:12px;color:var(--pink2);letter-spacing:.2em}
+.c1::after{content:'✝ ★ ✝'}
+.c2::after{content:'xoxo ♥ rawr ♥ xoxo';bottom:18px}
+.prato{width:116%;margin:-8px 0 0 -8%;height:16px;border-radius:50%;background:linear-gradient(#cfc8d6,#6d6475);border:2px solid #000}
+.dica{font-family:Silkscreen;font-size:11px;color:var(--muted);margin:18px 0 0}
+#desejo{font-family:'Special Elite';color:var(--pink2);font-size:1.15rem;max-height:0;overflow:hidden;opacity:0;transition:all .6s}
+#desejo.on{max-height:200px;opacity:1;margin-top:14px}
+
+/* top 8 */
+.top8{margin-top:22px}
+.top8 h2,.recados h2{font-family:'Pirata One';font-weight:400;font-size:2rem;margin:0 0 4px}
+.top8 .sub,.recados .sub{color:var(--muted);font-size:12px;margin:0 0 18px}
+.grid8{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.amigo{background:#0b090e;border:1px solid #2a2230;padding:12px 10px;cursor:pointer;text-align:center;position:relative;transition:transform .2s,border-color .2s,box-shadow .2s;border-radius:4px}
+.amigo:hover{transform:translateY(-4px) rotate(-1deg);border-color:var(--pink);box-shadow:0 0 24px #ff2e8844}
+.amigo .av{aspect-ratio:1;width:100%;margin-bottom:8px}
+.amigo b{display:block;font-family:Silkscreen;font-weight:400;font-size:12px;color:#fff}
+.amigo small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.amigo .rank{position:absolute;left:6px;top:6px;font-family:Silkscreen;font-size:10px;background:var(--pink);color:#000;padding:1px 5px;z-index:1}
+
+/* recados */
+.recados{margin-top:22px}
+.recado{display:grid;grid-template-columns:70px 1fr;gap:14px;padding:14px 0;border-bottom:1px dashed #ff2e8830}
+.recado:last-child{border-bottom:0}
+.recado .av{width:70px;height:70px;background:#000;border:1px solid #2a2230;padding:4px}
+.recado p{margin:4px 0;line-height:1.55;font-size:14px}
+.recado .quem{font-family:Silkscreen;font-size:12px;color:var(--pink2)}
+.recado .hora{font-size:11px;color:var(--muted)}
+
+footer{text-align:center;padding:50px 16px 90px;color:var(--muted);font-size:12px;position:relative;z-index:1}
+footer b{color:var(--pink2);font-weight:400}
+
+/* ---------- visuais de personagem ---------- */
+.vis{width:100%;height:100%;display:grid;place-items:center;container-type:size}
+.vis img{width:100%;height:100%;object-fit:contain;pointer-events:none;user-select:none;-webkit-user-drag:none}
+.fb{width:84%;height:84%;border-radius:50%;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,color-mix(in srgb,var(--c) 55%,white),var(--c) 45%,#000 105%);
+  box-shadow:0 0 18px var(--c),inset 0 -6px 14px #0008;border:2px solid #fff4}
+.fb span{font-size:46cqmin;line-height:1;filter:drop-shadow(2px 2px 0 #0008)}
+
+/* ---------- sprites ---------- */
+.sprite{position:absolute;left:0;top:0;pointer-events:auto;cursor:pointer;will-change:transform}
+.sp-body{width:100%;height:100%;transition:filter .2s}
+.sprite:hover .sp-body{filter:drop-shadow(0 0 10px var(--pink)) brightness(1.15)}
+.sp-flutuar .sp-body{animation:aura 2.4s infinite ease-in-out}
+@keyframes aura{0%,100%{filter:drop-shadow(0 0 8px #4fe3ff) drop-shadow(0 0 2px #fff)}50%{filter:drop-shadow(0 0 22px #4fe3ff) drop-shadow(0 0 40px #7b5cff88)}}
+.sp-espiar .sp-body{filter:drop-shadow(0 0 10px #ff5fa2aa)}
+.sp-clonar .sp-body{filter:drop-shadow(0 0 10px #a35cffaa)}
+.sp-teleportar .sp-body{filter:drop-shadow(0 0 8px #e3123d99)}
+.sp-correr .sp-body{filter:drop-shadow(-6px 0 4px #4fa3ff88)}
+.sprite.blink .sp-body{animation:blink .35s ease-out}
+@keyframes blink{0%{opacity:0;filter:brightness(4) drop-shadow(0 0 20px #ff2244)}100%{opacity:1}}
+.clone{pointer-events:none;animation:sumir 2.6s forwards}
+.clone .sp-body{filter:drop-shadow(0 0 12px #a35cff) hue-rotate(40deg) !important}
+@keyframes sumir{0%{opacity:.85}70%{opacity:.6}100%{opacity:0}}
+.orbes{position:absolute;inset:-16%;animation:girar 3s linear infinite;pointer-events:none}
+.orbes i{position:absolute;width:16px;height:16px;border-radius:50%;translate:-50% -50%;
+  background:radial-gradient(circle,#fff 0 25%,#9be0ff 45%,transparent 72%);box-shadow:0 0 14px #8fd8ff,0 0 26px #c6a6ff}
+.orbes i:nth-child(1){left:50%;top:0}.orbes i:nth-child(2){left:93.3%;top:75%}.orbes i:nth-child(3){left:6.7%;top:75%}
+@keyframes girar{to{rotate:360deg}}
+.balao{position:absolute;left:0;top:0;max-width:220px;padding:8px 12px;background:#fff;color:#111;font:700 13px/1.35 'Space Mono',monospace;
+  border-radius:14px;border:2px solid #000;box-shadow:3px 3px 0 var(--pink);pointer-events:none;animation:pop .25s ease-out;z-index:2;transition:opacity .25s}
+.balao.saindo{opacity:0}
+@keyframes pop{from{scale:.5;opacity:0}}
+
+/* ---------- vazio infinito ---------- */
+#vazio{position:fixed;inset:0;z-index:70;pointer-events:none;display:grid;place-items:center;overflow:hidden;
+  clip-path:circle(0% at 50% 50%);transition:clip-path .8s cubic-bezier(.7,0,.2,1);
+  background:radial-gradient(circle at 50% 50%,#fff 0 1.5%,#c9f6ff 4%,#4b6cff 13%,#2a0f6b 28%,#05030f 62%)}
+#vazio.on{clip-path:circle(150% at 50% 50%)}
+#vazio::before{content:'';position:absolute;inset:-60%;
+  background:
+    radial-gradient(circle,#fff 1px,transparent 1.6px) 0 0/37px 37px,
+    radial-gradient(circle,#9be8ff 1px,transparent 1.8px) 13px 19px/53px 53px,
+    radial-gradient(circle,#d7b8ff 1.2px,transparent 2px) 7px 31px/71px 71px;
+  animation:infinito 6s linear infinite;opacity:.85}
+@keyframes infinito{from{transform:rotate(0) scale(1)}to{transform:rotate(40deg) scale(1.6)}}
+.vz-txt{position:relative;text-align:center;color:#fff;text-shadow:0 0 20px #4fe3ff}
+.vz-jp{display:block;font-size:clamp(2.4rem,9vw,5.5rem);font-weight:700;letter-spacing:.2em;opacity:.9}
+.vz-txt b{display:block;font-family:'Pirata One';font-weight:400;font-size:clamp(2.6rem,10vw,6rem)}
+.vz-txt small{display:block;font-family:Silkscreen;font-size:12px;margin-top:8px;color:#c9f6ff}
+
+/* ---------- painel ---------- */
+#gear{position:fixed;right:16px;bottom:16px;z-index:80;width:48px;height:48px;border-radius:50%;background:#000;border:2px solid var(--pink);
+  font-size:22px;cursor:pointer;box-shadow:0 0 18px #ff2e8866;transition:rotate .5s}
+#gear:hover{rotate:120deg}
+#painel{position:fixed;right:16px;bottom:74px;z-index:80;width:min(380px,calc(100vw - 32px));max-height:72vh;overflow:auto;
+  background:#0d0b10;border:2px solid var(--pink);box-shadow:6px 6px 0 #000,0 0 40px #ff2e8844;padding:0 16px 16px;font-size:12px}
+.pn-head{position:sticky;top:0;background:#0d0b10;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-family:Silkscreen;font-size:13px;color:var(--pink2);z-index:1}
+.pn-head button{background:none;border:0;cursor:pointer;font-size:16px}
+.pn-sec{font-family:Silkscreen;font-size:11px;color:var(--pink2);margin:16px 0 8px}
+.pn-row{display:grid;grid-template-columns:10px 92px 1fr;gap:8px;align-items:center;margin-bottom:6px}
+.pn-row span{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dot{width:10px;height:10px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 6px #ff3b5c}
+.dot.ok{background:#7dff9b;box-shadow:0 0 6px #7dff9b}
+.pn-tg{display:flex;gap:8px;align-items:center;margin:6px 0;cursor:pointer}
+.pn-tg input{accent-color:var(--pink)}
+.pn-linha{display:flex;gap:8px}
+#pnSaida{width:100%;height:150px;background:#000;color:#9fffb5;border:1px solid #3a2f40;font:11px 'Space Mono';margin-top:8px;padding:8px}
+.pn-nota{color:var(--muted);line-height:1.5;margin:6px 0}
+#toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:95;background:#000;border:1px solid var(--pink);padding:10px 16px;font-family:Silkscreen;font-size:11px;
+  opacity:0;transition:opacity .3s;pointer-events:none;max-width:calc(100vw - 32px)}
+#toast.on{opacity:1}
+
+@media (max-width:820px){
+  .perfil{grid-template-columns:1fr}
+  .grid8{grid-template-columns:repeat(2,1fr)}
+  .hero{padding-top:40px}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== PORTÃO (precisa de 1 clique pra liberar o som) ========== -->
+<div id="portao">
+  <div class="pt-box">
+    <div class="pt-topo"><span>📩 nova mensagem</span><span>x</span></div>
+    <p>de: <b>alguém que te ama</b><br>para: <b data-nome>Rebeca</b></p>
+    <p class="pt-assunto">assunto: hoje é seu dia (rawr xD)</p>
+    <button id="entrar">abrir (se tiver coragem) 🖤</button>
+    <small>aumenta o volume 🎧</small>
+  </div>
+</div>
+
+<canvas id="fx"></canvas>
+<div id="palco"></div>
+<div id="vazio"><div class="vz-txt"><span class="vz-jp">領域展開</span><b>Vazio Infinito</b><small>expansão de domínio: carinho infinito</small></div></div>
+
+<div class="marquee"><div class="mq-track" id="mq"></div></div>
+
+<header class="hero">
+  <p class="kicker">~*~ xX_<span data-nome>Rebeca</span>_Xx tem 1 novo ano de vida ~*~</p>
+  <h1 class="glitch" data-text="Feliz Aniversário">Feliz Aniversário</h1>
+  <h2 class="nome" data-nome>Rebeca</h2>
+  <div class="idade">
+    <span class="neon" data-idade>29</span>
+    <span class="sub">anos de <b>puro drama</b>,<br>delineador borrado<br>e playlist triste 🖤</span>
+  </div>
+  <div class="zebra"></div>
+</header>
+
+<div class="wrap">
+  <main class="perfil">
+    <aside class="col">
+      <div class="card foto-card">
+        <div class="label">perfil</div>
+        <div class="foto" id="fotoBox">
+          <img id="foto" alt="">
+          <div class="foto-vazia"><div>🖤<small>salve uma foto como foto.jpg</small></div></div>
+        </div>
+        <h3 data-nome>Rebeca</h3>
+        <ul class="stats">
+          <li><b>idade:</b><span data-idade>29</span> (mentalmente: 2007)</li>
+          <li><b>humor:</b>dramática, mas fofa 🖤</li>
+          <li><b>status:</b>emocionada e com fome de bolo</li>
+          <li><b>signo:</b>nem queira saber</li>
+        </ul>
+        <span class="online">online agora</span>
+      </div>
+
+      <div class="card">
+        <div class="label">♫ ouvindo agora</div>
+        <div id="spotifyBox"></div>
+        <div class="divisor">ou toca do computador</div>
+        <div class="player" id="player">
+          <div class="pl-head"><span class="eq"><i></i><i></i><i></i><i></i><i></i></span><span id="plTitulo">nenhuma música local</span></div>
+          <div class="pl-bar" id="plBar"><div id="plProg"></div></div>
+          <div class="pl-ctrl">
+            <button class="ic" id="plPrev" title="anterior">⏮</button>
+            <button class="ic" id="plPlay" title="tocar/pausar">▶</button>
+            <button class="ic" id="plNext" title="próxima">⏭</button>
+            <label class="btn btn-file">+ músicas<input type="file" id="plFiles" accept="audio/*" multiple hidden></label>
+          </div>
+        </div>
+        <audio id="audio" preload="metadata"></audio>
+      </div>
+    </aside>
+
+    <section class="col">
+      <div class="card carta" id="carta">
+        <div class="label">mensagem pra você</div>
+        <p class="maquina" id="msg"></p>
+        <p class="assinatura" id="assinatura"></p>
+      </div>
+
+      <div class="card bolo-card">
+        <div class="label">faz um pedido</div>
+        <div class="bolo" id="bolo" title="sopra!">
+          <div class="velas" id="velas"></div>
+          <div class="camada c1"></div>
+          <div class="camada c2"></div>
+          <div class="prato"></div>
+        </div>
+        <p class="dica">clica nas velas pra soprar 🕯️</p>
+        <div id="desejo">desejo concedido. não conta pra ninguém 🖤<br><button class="link" id="reacender">acender de novo</button></div>
+      </div>
+    </section>
+  </main>
+
+  <section class="card top8">
+    <div class="label">top 8</div>
+    <h2>Top 8 da <span data-nome>Rebeca</span></h2>
+    <p class="sub">clica em cada um pra ver o que acontece 👀</p>
+    <div class="grid8" id="top8"></div>
+  </section>
+
+  <section class="card recados">
+    <div class="label">recados (8)</div>
+    <h2>Recados</h2>
+    <p class="sub">todo mundo postou à meia-noite, claro</p>
+    <div id="recados"></div>
+  </section>
+</div>
+
+<footer>feito com <b>🖤</b>, café e My Chemical Romance no fundo · <span id="ano"></span></footer>
+
+<button id="gear" title="painel secreto">⚙</button>
+<div id="painel" hidden>
+  <div class="pn-head"><span>⚙ painel secreto</span><button id="pnFechar" title="fechar">✕</button></div>
+
+  <div class="pn-sec">🎧 spotify</div>
+  <div class="pn-linha"><input type="text" id="pnSpotify" placeholder="link da playlist / álbum / música"><button class="btn" id="pnSpotifyOk">ok</button></div>
+
+  <div class="pn-sec">🖼️ gifs dos personagens <span style="color:var(--muted)">(caminho ou link)</span></div>
+  <p class="pn-nota">● verde = achou o GIF · ● vermelho = usando o emoji no lugar</p>
+  <div id="pnGifs"></div>
+  <label class="btn btn-file" style="display:inline-block;margin-top:8px">+ soltar GIF/PNG extra do PC<input type="file" id="pnExtra" accept="image/*" multiple hidden></label>
+
+  <div class="pn-sec">✨ efeitos</div>
+  <label class="pn-tg"><input type="checkbox" data-ef="chuva" checked> chuva de 🖤 🦇 🥀</label>
+  <label class="pn-tg"><input type="checkbox" data-ef="rastro" checked> rastro de brilho no mouse</label>
+  <label class="pn-tg"><input type="checkbox" data-ef="personagens" checked> personagens passeando</label>
+
+  <div class="pn-sec">💾 deixar fixo</div>
+  <p class="pn-nota">O que você muda aqui fica salvo só neste navegador. Pra Rebeca ver, gera o texto abaixo e cola no <b>CONFIG</b> lá no fim do arquivo.</p>
+  <div class="pn-linha"><button class="btn" id="pnCopiar">📋 gerar config</button><button class="btn" id="pnLimpar">limpar ajustes</button></div>
+  <textarea id="pnSaida" hidden readonly></textarea>
+</div>
+<div id="toast"></div>
+
+<script>
+/* =====================================================================
+   CONFIG — mude tudo aqui 🖤
+   ===================================================================== */
+const CONFIG = {
+  nome: 'Rebeca',
+  idade: 29,
+
+  // foto dela (coloque o arquivo na mesma pasta do index.html). Deixe '' pra não usar.
+  foto: 'foto.jpg',
+
+  // cole o link de uma playlist, álbum ou música do Spotify
+  // ex: 'https://open.spotify.com/playlist/xxxxxxxxxxxxxxxxxxxxxx'
+  spotify: '',
+
+  // músicas locais (mp3 na pasta musicas/). Tocam sozinhas quando ela clicar em "abrir".
+  musicas: [
+    // { titulo: 'Welcome to the Black Parade', arquivo: 'musicas/black-parade.mp3' },
+  ],
+  tocarAoEntrar: true,
+
+  // GIFs / PNGs sem fundo. Pode ser arquivo na pasta gifs/ ou link direto (https://...gif)
+  gifs: {
+    sonicClassico: 'gifs/sonic-classico.gif',
+    sonic:         'gifs/sonic.gif',
+    gojo:          'gifs/gojo.gif',
+    iggy:          'gifs/iggy.gif',
+    zeroTwo:       'gifs/zero-two.gif',
+    katarina:      'gifs/katarina.gif',
+    leblanc:       'gifs/leblanc.gif',
+    ahri:          'gifs/ahri.gif',
+  },
+
+  mensagem:
+`Rebeca,
+
+29 anos e você continua sendo a pessoa mais intensa, engraçada e dramática (no bom sentido) que eu conheço.
+
+Que esse ano venha com menos boleto, mais playlist perfeita, mais lanche de madrugada e só aquela tristeza bonita de ouvir música alta no fone.
+
+Você merece o mundo inteiro. E um Vazio Infinito só pros seus problemas.
+
+Feliz aniversário. 🖤`,
+  assinatura: '— com carinho (e delineador borrado)',
+
+  marquee: ['feliz aniversário {nome}', '{idade} anos', 'rawr xD', 'a era 2007 nunca acabou', 'não tô chorando, é o delineador', 'hoje pode tudo (menos dormir cedo)', 'parabéns, darling~'],
+};
+
+/* =====================================================================
+   PERSONAGENS — comportamento, falas e recados
+   comportamentos: rolar, correr, flutuar, pular, espiar, teleportar, clonar, orbitar, vagar
+   ===================================================================== */
+const PERSONAGENS = [
+  { id:'sonicClassico', nome:'Sonic Clássico', origem:'Sonic 1 · 1991', emoji:'🦔', cor:'#2f6bff', comp:'rolar',
+    falas:['Achei 29 rings! Um pra cada ano 💍','Aperta START, Rebeca!','*bate o pé impaciente*'],
+    recado:'Fiquei 29 anos parado na tela de título esperando você apertar START. Feliz aniversário! 💍' },
+  { id:'sonic', nome:'Sonic', origem:'Sonic the Hedgehog', emoji:'💨', cor:'#1a8cff', comp:'correr',
+    falas:['Gotta go fast! 💨','29? Tá rápida, hein!','Bora, o bolo não se come sozinho!'],
+    recado:'Passei aqui correndo só pra dizer: feliz aniversário! Já voltei pra Green Hill, beijo 💨' },
+  { id:'gojo', nome:'Gojo Satoru', origem:'Jujutsu Kaisen', emoji:'🕶️', cor:'#6fdcff', comp:'flutuar',
+    falas:['Relaxa. Eu sou o mais forte. 😎','Hoje você é a mais forte. Depois de mim.','Você tá linda hoje. Eu também, óbvio.'],
+    recado:'Entre o céu e a terra, só existe uma aniversariante hoje. Parabéns! (depois de mim, você é a mais forte) 🕶️' },
+  { id:'iggy', nome:'Iggy', origem:"JoJo's Bizarre Adventure", emoji:'🐶', cor:'#c9a26b', comp:'pular',
+    falas:['*rosna*','*rouba um pedaço do bolo*','Tem chiclete de café? Não? Tchau.'],
+    recado:'*rosna* ... *come metade do bolo* ... *rosna menos* ... feliz aniversário, humana. 🐾' },
+  { id:'zeroTwo', nome:'Zero Two', origem:'Darling in the Franxx', emoji:'🌸', cor:'#ff5fa2', comp:'espiar',
+    falas:['Darling~ 💕','Achei você, Rebeca~','Me dá um docinho? 🍯'],
+    recado:'Hoje você é a minha darling. Me guarda o pedaço com mais cobertura, tá? 🍯💕' },
+  { id:'katarina', nome:'Katarina', origem:'League of Legends', emoji:'🗡️', cor:'#e3123d', comp:'teleportar',
+    falas:['Violência resolve.','Shunpo! 🗡️','Pentakill de parabéns!'],
+    recado:'Violência resolve quase tudo. O que não resolve, bolo resolve. Feliz aniversário! 🗡️' },
+  { id:'leblanc', nome:'LeBlanc', origem:'League of Legends', emoji:'🪞', cor:'#a35cff', comp:'clonar',
+    falas:['Nada é o que parece...','Essa sou eu? Ou a outra? 😈','Segredos... e bolo.'],
+    recado:'Tem certeza que você fez 29 mesmo? Nada é o que parece. Mas o parabéns é verdadeiro 🪞' },
+  { id:'ahri', nome:'Ahri', origem:'League of Legends', emoji:'🦊', cor:'#ff8fd1', comp:'orbitar',
+    falas:['Vem cá~ 💕','Charme de aniversário!','Nove caudas, vinte e nove anos 🦊'],
+    recado:'Joguei um charme no seu ano novo: só coisa boa vai se apaixonar por você. Feliz aniversário 🦊💕' },
+];
+const P = Object.fromEntries(PERSONAGENS.map(p => [p.id, p]));
+
+/* ===================================================================== */
+const $ = s => document.querySelector(s);
+const rand = (a, b) => a + Math.random() * (b - a);
+const pick = a => a[Math.floor(Math.random() * a.length)];
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
+const store = {
+  get(k, d) { try { const v = localStorage.getItem('rebeca:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem('rebeca:' + k, JSON.stringify(v)); } catch (e) {} },
+  limpar() { try { Object.keys(localStorage).filter(k => k.startsWith('rebeca:')).forEach(k => localStorage.removeItem(k)); } catch (e) {} },
+};
+const reduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const gifs = { ...CONFIG.gifs, ...store.get('gifs', {}) };
+let spotifyURL = store.get('spotify', '') || CONFIG.spotify;
+const efeitos = { chuva: true, rastro: !reduzido, personagens: true, ...store.get('efeitos', {}) };
+
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
+  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2600);
+}
+
+/* ---------- textos ---------- */
+document.querySelectorAll('[data-nome]').forEach(e => e.textContent = CONFIG.nome);
+document.querySelectorAll('[data-idade]').forEach(e => e.textContent = CONFIG.idade);
+document.title = `Feliz Aniversário, ${CONFIG.nome} 🖤`;
+$('#ano').textContent = new Date().getFullYear();
+$('#assinatura').textContent = CONFIG.assinatura;
+{
+  const frases = CONFIG.marquee.map(f => f.replace('{nome}', CONFIG.nome).replace('{idade}', CONFIG.idade));
+  const linha = frases.map(f => `<span>♥ ${f}</span>`).join('');
+  $('#mq').innerHTML = linha + linha;
+}
+{
+  const foto = $('#foto');
+  if (!CONFIG.foto) $('#fotoBox').classList.add('vazia');
+  else { foto.onerror = () => $('#fotoBox').classList.add('vazia'); foto.alt = CONFIG.nome; foto.src = CONFIG.foto; }
+}
+$('#velas').innerHTML = String(CONFIG.idade).split('').map(d => `<div class="vela"><span class="chama"></span>${d}</div>`).join('');
+
+/* ---------- visual do personagem (GIF ou emoji de reserva) ---------- */
+function visual(p) {
+  const box = document.createElement('div');
+  box.className = 'vis'; box.dataset.char = p.id;
+  preencher(box, p);
+  return box;
+}
+function preencher(box, p) {
+  const src = p.src || gifs[p.id];
+  const reserva = () => { box.innerHTML = `<div class="fb" style="--c:${p.cor}"><span>${p.emoji}</span></div>`; };
+  if (!src) return reserva();
+  box.innerHTML = '';
+  const img = new Image();
+  img.alt = p.nome; img.draggable = false; img.decoding = 'async';
+  img.onerror = reserva;
+  img.src = src;
+  box.appendChild(img);
+}
+function atualizarVisual(id) {
+  document.querySelectorAll(`.vis[data-char="${id}"]`).forEach(v => preencher(v, P[id]));
+}
+
+/* =====================================================================
+   PARTÍCULAS (canvas)
+   ===================================================================== */
+const cv = $('#fx'), ctx = cv.getContext('2d');
+let W = innerWidth, H = innerHeight, DPR = 1;
+const EMOJI_FONT = '"Segoe UI Emoji","Apple Color Emoji","Noto Color Emoji",sans-serif';
+const parts = [];
+const chuva = [];
+
+function resize() {
+  W = innerWidth; H = innerHeight; DPR = Math.min(2, devicePixelRatio || 1);
+  cv.width = W * DPR; cv.height = H * DPR; cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+}
+resize();
+
+function add(p) {
+  if (parts.length > 900) return;
+  parts.push(Object.assign({ tipo:'emoji', x:0, y:0, vx:0, vy:0, g:0, vida:1, idade:0, rot:0, vr:0, tam:16, alfa:1, atrito:1, cor:'#ff7ab8' }, p));
+}
+function explosao(x, y, n, o = {}) {
+  for (let i = 0; i < n; i++) {
+    const a = rand(0, Math.PI * 2), v = rand(o.vmin ?? 80, o.vmax ?? 260);
+    add({
+      tipo: o.tipo || 'emoji', ch: o.chars ? pick(o.chars) : '✦', cor: o.cores ? pick(o.cores) : (o.cor || '#ff7ab8'),
+      x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v - (o.sobe || 0), g: o.g ?? 300,
+      vida: rand(o.vidaMin ?? .8, o.vidaMax ?? 1.6), tam: rand(o.tMin ?? 12, o.tMax ?? 22),
+      vr: rand(-6, 6), atrito: o.atrito ?? .98, cresce: o.cresce || 0, w: rand(6, 10), h: rand(10, 16),
+    });
+  }
+}
+const coracoes = (x, y, n = 18) => explosao(x, y, n, { chars:['💗','💕','🖤','💖'], g:-40, vmin:60, vmax:220, atrito:.95, tMin:14, tMax:26 });
+const confete  = (x, y, n = 80) => explosao(x, y, n, { tipo:'rect', cores:['#ff2e88','#ff7ab8','#9b5cff','#ffffff','#e3123d','#c9c9d6','#4fe3ff'], vmin:200, vmax:620, g:520, sobe:260, vidaMin:1.8, vidaMax:3.2, atrito:.985 });
+const areia    = (x, y, n = 40) => explosao(x, y, n, { tipo:'bola', cores:['#c9a26b','#a8814f','#e0c08f','#7a5c38'], vmin:30, vmax:240, g:-10, atrito:.94, tMin:4, tMax:14, vidaMin:1, vidaMax:2.2, cresce:6 });
+const fumaca   = (x, y, n = 24, cores = ['#a35cff','#6b2fd1','#d3b5ff']) => explosao(x, y, n, { tipo:'bola', cores, vmin:20, vmax:120, g:-60, atrito:.93, tMin:8, tMax:20, vidaMin:.8, vidaMax:1.6, cresce:14 });
+const brilho   = (x, y, n = 4, cor = '#9be8ff') => explosao(x, y, n, { chars:['✦','✧','·'], cor, vmin:10, vmax:60, g:-20, tMin:8, tMax:14, vidaMin:.5, vidaMax:1 });
+const aneis    = (x, y, n = 14) => explosao(x, y, n, { tipo:'anel', vmin:150, vmax:360, g:520, sobe:220, tMin:8, tMax:11, vidaMin:1.4, vidaMax:2.1, atrito:.99 });
+
+function novaGota(c, inicio) {
+  c.x = rand(0, W); c.y = inicio ? rand(-H, H) : rand(-80, -20);
+  c.vy = rand(22, 65); c.amp = rand(10, 40); c.fase = rand(0, 6); c.vf = rand(.5, 1.5);
+  c.ch = pick(['🖤','🖤','💔','🦇','🥀','✦','✧']); c.tam = rand(12, 24); c.rot = rand(-.4, .4); c.vr = rand(-.5, .5); c.alfa = rand(.35, .8);
+}
+for (let i = 0; i < (reduzido ? 8 : W < 600 ? 16 : 28); i++) { const c = {}; novaGota(c, true); chuva.push(c); }
+
+function glifo(ch, x, y, tam, rot, alfa, cor) {
+  ctx.save(); ctx.globalAlpha = alfa; ctx.translate(x, y); ctx.rotate(rot);
+  ctx.font = `${tam}px ${EMOJI_FONT}`; ctx.fillStyle = cor; ctx.fillText(ch, 0, 0); ctx.restore();
+}
+function atualizarParticulas(dt) {
+  for (const c of chuva) { c.y += c.vy * dt; c.fase += dt * c.vf; c.rot += c.vr * dt; if (c.y > H + 30) novaGota(c, false); }
+  for (let i = parts.length - 1; i >= 0; i--) {
+    const p = parts[i];
+    p.idade += dt;
+    if (p.idade >= p.vida) { parts.splice(i, 1); continue; }
+    const f = Math.pow(p.atrito, dt * 60);
+    p.vx *= f; p.vy = p.vy * f + p.g * dt;
+    p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vr * dt; p.tam += p.cresce * dt;
+  }
+}
+function desenhar() {
+  ctx.clearRect(0, 0, W, H);
+  if (efeitos.chuva) for (const c of chuva) glifo(c.ch, c.x + Math.sin(c.fase) * c.amp, c.y, c.tam, c.rot, c.alfa, '#ff7ab8');
+  for (const p of parts) {
+    const k = p.idade / p.vida, a = p.fixo ? 1 : p.alfa * (1 - k * k);
+    switch (p.tipo) {
+      case 'emoji': glifo(p.ch, p.x, p.y, p.tam, p.rot, a, p.cor); break;
+      case 'rect':
+        ctx.save(); ctx.globalAlpha = a; ctx.translate(p.x, p.y); ctx.rotate(p.rot); ctx.scale(1, Math.cos(p.idade * 9));
+        ctx.fillStyle = p.cor; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore(); break;
+      case 'bola':
+        ctx.globalAlpha = a * .7; ctx.fillStyle = p.cor; ctx.beginPath(); ctx.arc(p.x, p.y, Math.max(1, p.tam / 2), 0, 7); ctx.fill(); ctx.globalAlpha = 1; break;
+      case 'anel':
+        ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#ffd23f'; ctx.lineWidth = 3; ctx.shadowColor = '#ffb300'; ctx.shadowBlur = 8;
+        ctx.beginPath(); ctx.ellipse(p.x, p.y, Math.abs(Math.cos(p.idade * 7)) * p.tam + 1.5, p.tam, 0, 0, 7); ctx.stroke(); ctx.restore(); break;
+      case 'traco':
+        ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = p.cor; ctx.lineCap = 'round'; ctx.lineWidth = (p.larg || 6) * (1 - k);
+        ctx.shadowColor = p.cor; ctx.shadowBlur = 14; ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x2, p.y2); ctx.stroke(); ctx.restore(); break;
+      case 'risco':
+        ctx.save(); ctx.globalAlpha = a * .8; ctx.strokeStyle = p.cor; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + p.dl * p.comp, p.y); ctx.stroke(); ctx.restore(); break;
+    }
+  }
+}
+
+/* =====================================================================
+   SPRITES (personagens passeando)
+   ===================================================================== */
+const palco = $('#palco');
+const sprites = [];
+const tamSprite = () => Math.round(clamp(W * .085, 64, 108));
+
+class Sprite {
+  constructor(p) {
+    this.p = p; this.size = tamSprite(); this.st = {}; this.t = rand(0, 100); this.dir = 1; this.rot = 0;
+    const el = this.el = document.createElement('div');
+    el.className = `sprite sp-${p.comp}`; el.title = p.nome;
+    el.style.width = el.style.height = this.size + 'px';
+    this.body = document.createElement('div'); this.body.className = 'sp-body';
+    this.body.appendChild(visual(p)); el.appendChild(this.body);
+    if (p.comp === 'orbitar') el.insertAdjacentHTML('beforeend', '<div class="orbes"><i></i><i></i><i></i></div>');
+    el.addEventListener('click', e => { e.stopPropagation(); especial(this); });
+    palco.appendChild(el);
+    const a = alvoAleatorio(this); this.x = a.x; this.y = a.y;
+    (INIT[p.comp] || (() => {}))(this);
+    this.place();
+  }
+  get cx() { return this.x + this.size / 2; }
+  get cy() { return this.y + this.size / 2; }
+  visivel() { return this.x > -this.size * .5 && this.x < W - this.size * .5 && this.y > -this.size && this.y < H; }
+  place() {
+    this.el.style.transform = `translate3d(${this.x}px,${this.y}px,0)`;
+    this.body.style.transform = `scaleX(${this.dir}) rotate(${this.rot}deg)`;
+    this.posBalao();
+  }
+  fala(txt, ms = 2600) {
+    if (this.balao) this.balao.remove();
+    const b = this.balao = document.createElement('div');
+    b.className = 'balao'; b.textContent = txt; palco.appendChild(b);
+    this.bw = b.offsetWidth; this.bh = b.offsetHeight; this.posBalao();
+    clearTimeout(this.tb);
+    this.tb = setTimeout(() => { b.classList.add('saindo'); setTimeout(() => b.remove(), 260); if (this.balao === b) this.balao = null; }, ms);
+  }
+  posBalao() {
+    if (!this.balao) return;
+    const x = clamp(this.cx - this.bw / 2, 8, W - this.bw - 8);
+    let y = this.y - this.bh - 8; if (y < 8) y = this.y + this.size + 8;
+    this.balao.style.transform = `translate(${x}px,${clamp(y, 8, H - this.bh - 8)}px)`;
+  }
+}
+function balaoSolto(x, y, txt, ms = 2200) {
+  const b = document.createElement('div'); b.className = 'balao'; b.textContent = txt; palco.appendChild(b);
+  b.style.transform = `translate(${clamp(x - b.offsetWidth / 2, 8, W - b.offsetWidth - 8)}px,${clamp(y - b.offsetHeight - 8, 8, H - 40)}px)`;
+  setTimeout(() => { b.classList.add('saindo'); setTimeout(() => b.remove(), 260); }, ms);
+}
+const alvoAleatorio = s => ({ x: rand(10, Math.max(11, W - s.size - 10)), y: rand(60, Math.max(61, H - s.size - 20)) });
+const chao = s => H - s.size - 6;
+
+function vagar(s, dt, vel) {
+  const st = s.st;
+  if (!st.alvo || Math.hypot(st.alvo.x - s.x, st.alvo.y - s.y) < 10) st.alvo = alvoAleatorio(s);
+  const dx = st.alvo.x - s.x, dy = st.alvo.y - s.y, d = Math.hypot(dx, dy) || 1;
+  s.x += dx / d * vel * dt; s.y += dy / d * vel * dt + Math.sin(s.t * 3) * .3;
+  if (Math.abs(dx) > 4) s.dir = dx > 0 ? 1 : -1;
+}
+
+const INIT = {
+  correr(s) { s.st.espera = rand(2, 4); s.x = -9999; },
+  rolar(s) { s.x = rand(W * .3, W * .6); s.st.prox = rand(2, 4); s.st.anel = .6; },
+  pular(s) { s.x = rand(10, W * .25); s.st.prox = rand(1, 3); },
+  espiar(s) { Object.assign(s.st, { fase:'fora', tt:0, espera:rand(2, 5), lado:1 }); s.y = H * .35; s.dir = -1; s.x = W + 10; },
+  teleportar(s) { s.st.tt = 0; s.st.espera = rand(2, 4); },
+  clonar(s) { s.st.tt = 0; s.st.espera = rand(4, 7); },
+};
+
+const UPD = {
+  // Sonic: atravessa a tela num piscar de olhos
+  correr(s, dt) {
+    const st = s.st;
+    if (!st.correndo) {
+      st.espera -= dt;
+      if (st.espera <= 0) {
+        st.correndo = true; s.dir = Math.random() < .5 ? 1 : -1; st.vel = W / 1.3;
+        s.x = s.dir > 0 ? -s.size : W; s.y = chao(s) - rand(0, H * .3);
+      }
+      return;
+    }
+    if (st.parado > 0) { st.parado -= dt; s.rot = Math.sin(s.t * 20) * 3; return; }
+    s.rot = 0;
+    s.x += s.dir * st.vel * dt;
+    for (let i = 0; i < 2; i++) add({ tipo:'risco', x: s.dir > 0 ? s.x + 10 : s.x + s.size - 10, y: s.y + rand(.2, .9) * s.size, dl: -s.dir, comp: rand(40, 120), cor: pick(['#9be8ff','#4fa3ff','#ffffff']), vida: .25 });
+    if (s.x > W + s.size || s.x < -s.size * 2) { st.correndo = false; st.espera = rand(6, 13); s.x = -9999; }
+  },
+  // Sonic clássico: anda no chão, pula girando e deixa rings
+  rolar(s, dt) {
+    const st = s.st, c = chao(s);
+    s.x += s.dir * 150 * dt;
+    if (s.x < 0) { s.x = 0; s.dir = 1; }
+    if (s.x > W - s.size) { s.x = W - s.size; s.dir = -1; }
+    if (st.pulo) {
+      st.pt += dt; const k = st.pt / .8;
+      if (k >= 1) { st.pulo = false; s.y = c; s.rot = 0; }
+      else { s.y = c - Math.sin(k * Math.PI) * s.size * 1.6; s.rot = k * 360; }
+    } else {
+      s.y = c; st.prox -= dt;
+      if (st.prox <= 0) { st.pulo = true; st.pt = 0; st.prox = rand(3, 7); }
+    }
+    st.anel -= dt;
+    if (st.anel <= 0) { st.anel = rand(.6, 1.4); add({ tipo:'anel', x: s.cx, y: s.y + s.size * .3, vy: -40, g: 60, vida: 1.6, tam: 8 }); }
+  },
+  // Gojo: flutua com aura azul
+  flutuar(s, dt) {
+    const nx = W * .5 + Math.sin(s.t * .23) * W * .38 - s.size / 2;
+    const ny = H * .42 + Math.sin(s.t * .37 + 1) * H * .28 - s.size / 2;
+    if (Math.abs(nx - s.x) > .3) s.dir = nx > s.x ? 1 : -1;
+    s.x = nx; s.y = ny;
+    if (Math.random() < dt * 5) brilho(s.cx + rand(-20, 20), s.cy + rand(-20, 20), 1);
+  },
+  // Iggy: pulinhos no canto
+  pular(s, dt) {
+    const st = s.st, c = chao(s);
+    if (st.salto) {
+      st.pt += dt; const k = st.pt / .55;
+      if (k >= 1) { st.salto = false; s.x = st.x1; s.y = c; areia(s.cx, H - 8, 6); }
+      else { s.x = st.x0 + (st.x1 - st.x0) * k; s.y = c - Math.sin(k * Math.PI) * s.size * .7; }
+    } else {
+      s.y = c; st.prox -= dt;
+      if (st.prox <= 0) {
+        st.salto = true; st.pt = 0; st.x0 = s.x;
+        st.x1 = clamp(s.x + (Math.random() < .5 ? -1 : 1) * rand(60, 180), 8, Math.max(20, W * .45));
+        s.dir = st.x1 > st.x0 ? 1 : -1; st.prox = rand(1.2, 3.5);
+      }
+    }
+  },
+  // Zero Two: espia pela borda da tela
+  espiar(s, dt) {
+    const st = s.st, fora = st.lado > 0 ? W + 4 : -s.size - 4, dentro = st.lado > 0 ? W - s.size * .8 : -s.size * .2;
+    st.tt += dt;
+    if (st.fase === 'fora') { s.x = fora; if (st.tt > st.espera) { st.fase = 'entrando'; st.tt = 0; } }
+    else if (st.fase === 'entrando') {
+      s.x = fora + (dentro - fora) * ease(Math.min(st.tt / .7, 1)); s.rot = -st.lado * 10;
+      if (st.tt >= .7) { st.fase = 'olhando'; st.tt = 0; if (Math.random() < .6) s.fala(pick(s.p.falas)); }
+    } else if (st.fase === 'olhando') {
+      s.x = dentro + Math.sin(st.tt * 4) * 3; if (st.tt > 3.4) { st.fase = 'saindo'; st.tt = 0; }
+    } else {
+      s.x = dentro + (fora - dentro) * ease(Math.min(st.tt / .6, 1));
+      if (st.tt >= .6) {
+        st.fase = 'fora'; st.tt = 0; st.espera = rand(5, 12); st.lado = Math.random() < .5 ? 1 : -1;
+        s.y = H * rand(.15, .7); s.dir = -st.lado;
+      }
+    }
+  },
+  // Katarina: Shunpo (teleporte com corte)
+  teleportar(s, dt) {
+    const st = s.st; st.tt += dt; s.y += Math.sin(s.t * 2) * .15;
+    if (st.giro > 0) { st.giro -= dt; s.rot += 1080 * dt; } else s.rot = 0;
+    if (st.tt > st.espera) { st.tt = 0; st.espera = rand(2.5, 5); shunpo(s); }
+  },
+  // LeBlanc: anda e deixa clones falsos
+  clonar(s, dt) {
+    vagar(s, dt, 70); const st = s.st; st.tt += dt;
+    if (st.tt > st.espera) { st.tt = 0; st.espera = rand(6, 11); clone(s); }
+  },
+  // Ahri: passeia com orbes de fogo de raposa
+  orbitar(s, dt) {
+    vagar(s, dt, 55);
+    if (Math.random() < dt * 1.2) add({ ch:'💗', x: s.cx + rand(-15, 15), y: s.cy, vy: -30, vida: 1.2, tam: 12 });
+  },
+  vagar(s, dt) { vagar(s, dt, 70); },
+};
+
+function shunpo(s, alvo) {
+  const x0 = s.cx, y0 = s.cy, a = alvo || alvoAleatorio(s);
+  s.dir = a.x > s.x ? 1 : -1; s.x = a.x; s.y = a.y;
+  add({ tipo:'traco', x: x0, y: y0, x2: s.cx, y2: s.cy, cor:'#ff2244', larg: 7, vida: .4 });
+  explosao(x0, y0, 6, { tipo:'bola', cores:['#e3123d','#ff5577'], vmin:20, vmax:90, g:0, tMin:4, tMax:9, vidaMin:.3, vidaMax:.6 });
+  s.el.classList.remove('blink'); void s.el.offsetWidth; s.el.classList.add('blink');
+}
+function clone(s, zoeira) {
+  const c = document.createElement('div');
+  c.className = 'sprite clone'; c.style.width = c.style.height = s.size + 'px'; c.style.transform = s.el.style.transform;
+  c.appendChild(s.body.cloneNode(true)); palco.appendChild(c);
+  const cx = s.cx, cy = s.cy, topo = s.y;
+  fumaca(cx, cy, 16);
+  const a = alvoAleatorio(s); s.x = a.x; s.y = a.y; s.st.alvo = null;
+  fumaca(s.cx, s.cy, 10);
+  if (zoeira) { balaoSolto(cx, topo, 'errou! era a falsa 😈'); setTimeout(() => s.fala(pick(s.p.falas)), 700); }
+  setTimeout(() => { fumaca(cx, cy, 14); c.remove(); }, 2600);
+}
+
+/* ---------- clique nos personagens ---------- */
+const ESPECIAL = {
+  sonicClassico(s) { s.st.pulo = true; s.st.pt = 0; aneis(s.cx, s.cy, 16); s.fala('+29 rings! 💍'); },
+  sonic(s) {
+    const st = s.st; st.correndo = true; st.parado = 2.4; st.vel = W / 1.3;
+    s.dir = Math.random() < .5 ? 1 : -1; s.x = W / 2 - s.size / 2; s.y = chao(s) - H * .1;
+    fumaca(s.cx, s.y + s.size, 14, ['#9be8ff','#ffffff','#4fa3ff']); s.fala(pick(s.p.falas));
+  },
+  gojo(s) { vazioInfinito(); setTimeout(() => s.fala('Vazio Infinito. Parabéns infinito. 😎', 3000), 3100); },
+  iggy(s) { areia(s.cx, s.cy, 80); s.st.prox = 0; s.fala(pick(s.p.falas)); },
+  zeroTwo(s) {
+    const st = s.st;
+    if (st.fase === 'fora') { st.fase = 'entrando'; st.tt = 0; }
+    else if (st.fase === 'saindo') { st.fase = 'olhando'; st.tt = 0; }
+    setTimeout(() => { coracoes(s.cx, s.cy, 26); s.fala(pick(s.p.falas)); }, st.fase === 'entrando' ? 700 : 0);
+  },
+  katarina(s) {
+    s.st.giro = .7; s.st.tt = 0;
+    for (let i = 0; i < 12; i++) { const a = i / 12 * Math.PI * 2; add({ ch:'🗡️', x: s.cx, y: s.cy, vx: Math.cos(a) * 420, vy: Math.sin(a) * 420, atrito: .9, vr: 14, vida: .9, tam: 24 }); }
+    for (let i = 0; i < 3; i++) { const a = rand(0, Math.PI), r = s.size; add({ tipo:'traco', x: s.cx - Math.cos(a) * r, y: s.cy - Math.sin(a) * r, x2: s.cx + Math.cos(a) * r, y2: s.cy + Math.sin(a) * r, cor:'#ff2244', larg: 5, vida: .5 }); }
+    s.fala(pick(s.p.falas));
+  },
+  leblanc(s) { clone(s, true); },
+  ahri(s) {
+    s.fala(pick(s.p.falas));
+    const outros = sprites.filter(o => o !== s && o.visivel());
+    const alvo = outros.length ? pick(outros) : null;
+    const tx = alvo ? alvo.cx : rand(0, W), ty = alvo ? alvo.cy : rand(0, H);
+    const t = clamp(Math.hypot(tx - s.cx, ty - s.cy) / 500, .3, 1.4);
+    add({ ch:'💗', x: s.cx, y: s.cy, vx: (tx - s.cx) / t, vy: (ty - s.cy) / t, vida: t, tam: 30, vr: 4, fixo: true });
+    setTimeout(() => {
+      coracoes(alvo ? alvo.cx : tx, alvo ? alvo.cy : ty, 16);
+      if (alvo) alvo.fala(pick(['😍','*encantado(a)*','💕💕💕','quem é essa raposa?']));
+    }, t * 1000);
+  },
+  extra(s) { coracoes(s.cx, s.cy, 16); s.fala(pick(s.p.falas)); },
+};
+function especial(s) { (ESPECIAL[s.p.id] || ESPECIAL.extra)(s); }
+function especialPorId(id) { const s = sprites.find(x => x.p.id === id); if (s) especial(s); }
+
+let congelado = false;
+function vazioInfinito() {
+  const o = $('#vazio'); if (o.classList.contains('on')) return;
+  o.classList.add('on'); congelado = true;
+  setTimeout(() => { congelado = false; }, 2700);
+  setTimeout(() => o.classList.remove('on'), 3000);
+}
+
+PERSONAGENS.forEach(p => sprites.push(new Sprite(p)));
+palco.hidden = !efeitos.personagens;
+
+/* ---------- loop principal ---------- */
+let ultimo = performance.now();
+function loop(agora) {
+  const dt = Math.min(.05, (agora - ultimo) / 1000); ultimo = agora;
+  if (!congelado) {
+    atualizarParticulas(dt);
+    if (efeitos.personagens) for (const s of sprites) { s.t += dt; (UPD[s.p.comp] || UPD.vagar)(s, dt); s.place(); }
+  }
+  desenhar();
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+
+addEventListener('resize', () => {
+  const eraMinusculo = W < 200; // aba aberta em segundo plano: todo mundo nasceu no canto
+  resize();
+  const tam = tamSprite();
+  for (const s of sprites) {
+    s.size = tam; s.el.style.width = s.el.style.height = tam + 'px'; s.st.alvo = null;
+    if (['vagar','orbitar','clonar','teleportar'].includes(s.p.comp)) {
+      if (eraMinusculo) Object.assign(s, alvoAleatorio(s));
+      s.x = clamp(s.x, 0, W - tam); s.y = clamp(s.y, 0, H - tam);
+    }
+  }
+});
+
+/* ---------- rastro do mouse + clique no fundo ---------- */
+let ultimoRastro = 0;
+addEventListener('pointermove', e => {
+  if (!efeitos.rastro) return;
+  const t = performance.now(); if (t - ultimoRastro < 35) return; ultimoRastro = t;
+  add({ ch: pick(['✦','✧','⋆','🖤']), cor: pick(['#ff2e88','#ff7ab8','#c6a6ff']), x: e.clientX + rand(-4, 4), y: e.clientY + rand(-4, 4), vx: rand(-20, 20), vy: rand(10, 40), g: 30, vida: rand(.5, .9), tam: rand(10, 16) });
+});
+document.addEventListener('click', e => {
+  if (e.target.closest('button,a,input,label,textarea,iframe,#painel,.sprite,#bolo,.amigo,#portao,#msg')) return;
+  explosao(e.clientX, e.clientY, 9, { chars:['🖤','✦','💔'], cor:'#ff7ab8', vmin:60, vmax:200, g:220 });
+});
+
+/* =====================================================================
+   TOP 8 + RECADOS
+   ===================================================================== */
+PERSONAGENS.forEach((p, i) => {
+  const b = document.createElement('button');
+  b.className = 'amigo';
+  b.innerHTML = `<span class="rank">#${i + 1}</span><div class="av"></div><b>${p.nome}</b><small>${p.origem}</small>`;
+  b.querySelector('.av').appendChild(visual(p));
+  b.addEventListener('click', () => {
+    const r = b.getBoundingClientRect(); coracoes(r.left + r.width / 2, r.top + r.height / 2, 10);
+    if (!efeitos.personagens) toast('liga "personagens passeando" no ⚙ pra ver a mágica');
+    especialPorId(p.id);
+  });
+  $('#top8').appendChild(b);
+
+  const r = document.createElement('div');
+  r.className = 'recado';
+  r.innerHTML = `<div class="av"></div><div><span class="quem">${p.nome}</span> <span class="hora">escreveu hoje às 00:${String(i).padStart(2, '0')}</span><p></p></div>`;
+  r.querySelector('.av').appendChild(visual(p));
+  r.querySelector('p').textContent = p.recado;
+  $('#recados').appendChild(r);
+});
+
+/* =====================================================================
+   MÚSICA — Spotify + player local
+   ===================================================================== */
+function spotifyEmbed(url) {
+  if (!url) return null;
+  url = url.trim();
+  const m = url.match(/spotify:(playlist|album|track|artist|episode|show):([A-Za-z0-9]+)/)
+         || url.match(/open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?(playlist|album|track|artist|episode|show)\/([A-Za-z0-9]+)/i);
+  if (!m) return null;
+  return { src: `https://open.spotify.com/embed/${m[1].toLowerCase()}/${m[2]}?utm_source=generator&theme=0`, tipo: m[1].toLowerCase() };
+}
+function renderSpotify(erro) {
+  const box = $('#spotifyBox'), e = spotifyEmbed(spotifyURL);
+  if (e) {
+    const alt = (e.tipo === 'track' || e.tipo === 'episode') ? 152 : 352;
+    box.innerHTML = `<iframe src="${e.src}" height="${alt}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe><button class="link" id="spTrocar">trocar playlist</button>`;
+    $('#spTrocar').onclick = () => { spotifyURL = ''; renderSpotify(); };
+    return;
+  }
+  box.innerHTML = `<div class="sp-form">
+      <p class="${erro ? 'erro' : ''}">${erro ? 'hmm, esse link não parece do Spotify 😢' : 'cola o link de uma playlist, álbum ou música do Spotify:'}</p>
+      <input type="text" id="spInput" placeholder="https://open.spotify.com/playlist/...">
+      <button class="btn" id="spOk">colocar pra tocar ♫</button>
+    </div>`;
+  const ok = () => setSpotify($('#spInput').value);
+  $('#spOk').onclick = ok;
+  $('#spInput').addEventListener('keydown', ev => { if (ev.key === 'Enter') ok(); });
+}
+function setSpotify(url) {
+  url = (url || '').trim();
+  if (url && !spotifyEmbed(url)) return renderSpotify(true);
+  spotifyURL = url; store.set('spotify', url); renderSpotify();
+  if (url) toast('playlist salva neste navegador ♫');
+}
+renderSpotify();
+
+const audio = $('#audio'), player = $('#player');
+const fila = CONFIG.musicas.map(m => ({ titulo: m.titulo, src: m.arquivo }));
+let idx = 0, errosSeguidos = 0;
+if (fila.length) $('#plTitulo').textContent = fila[0].titulo;
+function carregar(i, tocar) {
+  if (!fila.length) return;
+  idx = (i + fila.length) % fila.length;
+  audio.src = fila[idx].src; $('#plTitulo').textContent = fila[idx].titulo;
+  if (tocar) audio.play().catch(() => {});
+}
+$('#plPlay').onclick = () => {
+  if (!fila.length) return $('#plFiles').click();
+  if (!audio.src) return carregar(idx, true);
+  audio.paused ? audio.play().catch(() => {}) : audio.pause();
+};
+$('#plNext').onclick = () => carregar(idx + 1, true);
+$('#plPrev').onclick = () => carregar(idx - 1, true);
+$('#plBar').onclick = e => { if (audio.duration) { const r = e.currentTarget.getBoundingClientRect(); audio.currentTime = (e.clientX - r.left) / r.width * audio.duration; } };
+audio.addEventListener('play', () => { player.classList.add('tocando'); $('#plPlay').textContent = '❚❚'; errosSeguidos = 0; });
+audio.addEventListener('pause', () => { player.classList.remove('tocando'); $('#plPlay').textContent = '▶'; });
+audio.addEventListener('ended', () => carregar(idx + 1, true));
+audio.addEventListener('timeupdate', () => { $('#plProg').style.width = (audio.currentTime / (audio.duration || 1) * 100) + '%'; });
+audio.addEventListener('error', () => {
+  $('#plTitulo').textContent = 'não achei: ' + fila[idx].src;
+  if (++errosSeguidos < fila.length) setTimeout(() => carregar(idx + 1, true), 1200);
+});
+$('#plFiles').addEventListener('change', e => {
+  const novas = [...e.target.files].map(f => ({ titulo: f.name.replace(/\.[^.]+$/, ''), src: URL.createObjectURL(f) }));
+  if (!novas.length) return;
+  const primeira = fila.length; fila.push(...novas); carregar(primeira, true);
+  e.target.value = '';
+});
+
+/* =====================================================================
+   CARTA (máquina de escrever) + BOLO
+   ===================================================================== */
+function maquina(el, texto) {
+  let i = 0, feito = false;
+  const cur = document.createElement('span'); cur.className = 'cursor';
+  const fim = () => { feito = true; el.textContent = texto; el.appendChild(cur); $('#assinatura').classList.add('on'); };
+  const tick = () => {
+    if (feito) return;
+    i++; el.textContent = texto.slice(0, i); el.appendChild(cur);
+    if (i >= texto.length) return fim();
+    const c = texto[i - 1];
+    setTimeout(tick, c === '\n' ? 280 : /[.,!?]/.test(c) ? 200 : 32);
+  };
+  el.addEventListener('click', () => { if (!feito) fim(); });
+  tick();
+}
+function observarCarta() {
+  const io = new IntersectionObserver(ents => {
+    if (ents.some(e => e.isIntersecting)) { io.disconnect(); maquina($('#msg'), CONFIG.mensagem); }
+  }, { threshold: .3 });
+  io.observe($('#carta'));
+}
+
+const bolo = $('#bolo');
+bolo.addEventListener('click', () => {
+  if (bolo.classList.contains('apagado')) return;
+  bolo.classList.add('apagado');
+  document.querySelectorAll('.chama').forEach(ch => { const q = ch.getBoundingClientRect(); fumaca(q.left + q.width / 2, q.top + q.height / 2, 14, ['#777','#aaa','#555']); });
+  const r = bolo.getBoundingClientRect();
+  setTimeout(() => { confete(r.left + r.width / 2, r.top + r.height * .3, 140); confete(W * .15, H * .7, 60); confete(W * .85, H * .7, 60); }, 250);
+  $('#desejo').classList.add('on');
+  sprites.forEach((s, i) => setTimeout(() => { if (s.visivel()) s.fala(pick(['🎉','PARABÉNS!!','🖤🖤🖤','rawr xD',`${CONFIG.idade}!!!`,'*chora de emoção*'])); }, 300 + i * 180));
+});
+$('#reacender').onclick = () => { bolo.classList.remove('apagado'); $('#desejo').classList.remove('on'); };
+
+/* =====================================================================
+   PORTÃO
+   ===================================================================== */
+$('#entrar').onclick = () => {
+  $('#portao').classList.add('fora');
+  setTimeout(() => $('#portao').remove(), 900);
+  confete(W / 2, H / 2, 160); coracoes(W / 2, H / 2, 30);
+  if (CONFIG.tocarAoEntrar && fila.length) carregar(0, true);
+  setTimeout(() => { const s = sprites.find(x => x.p.id === 'gojo'); if (s && efeitos.personagens) s.fala(`Feliz aniversário, ${CONFIG.nome}! 😎`); }, 1200);
+  observarCarta();
+};
+
+/* =====================================================================
+   PAINEL SECRETO ⚙
+   ===================================================================== */
+const painel = $('#painel');
+$('#gear').onclick = () => { painel.hidden = !painel.hidden; if (!painel.hidden) montarPainel(); };
+$('#pnFechar').onclick = () => painel.hidden = true;
+
+function testarImagem(src, cb) { if (!src) return cb(false); const i = new Image(); i.onload = () => cb(true); i.onerror = () => cb(false); i.src = src; }
+function salvarGifs() { const dif = {}; for (const k in gifs) if (gifs[k] !== CONFIG.gifs[k]) dif[k] = gifs[k]; store.set('gifs', dif); }
+function montarPainel() {
+  $('#pnSpotify').value = spotifyURL;
+  const box = $('#pnGifs'); box.innerHTML = '';
+  for (const p of PERSONAGENS) {
+    const row = document.createElement('div'); row.className = 'pn-row';
+    row.innerHTML = `<span class="dot"></span><span title="${p.nome}">${p.nome}</span><input type="text" spellcheck="false" placeholder="gifs/... ou https://...gif">`;
+    const inp = row.querySelector('input'), dot = row.querySelector('.dot');
+    inp.value = gifs[p.id] || '';
+    testarImagem(gifs[p.id], ok => dot.classList.toggle('ok', ok));
+    inp.addEventListener('change', () => {
+      gifs[p.id] = inp.value.trim(); salvarGifs(); atualizarVisual(p.id);
+      testarImagem(gifs[p.id], ok => { dot.classList.toggle('ok', ok); toast(ok ? `${p.nome}: GIF carregado ✓` : `${p.nome}: não achei esse GIF`); });
+    });
+    box.appendChild(row);
+  }
+  painel.querySelectorAll('[data-ef]').forEach(c => c.checked = efeitos[c.dataset.ef]);
+}
+$('#pnSpotifyOk').onclick = () => setSpotify($('#pnSpotify').value);
+painel.querySelectorAll('[data-ef]').forEach(c => c.addEventListener('change', () => {
+  efeitos[c.dataset.ef] = c.checked; store.set('efeitos', efeitos);
+  palco.hidden = !efeitos.personagens;
+}));
+let nExtra = 0;
+$('#pnExtra').addEventListener('change', e => {
+  for (const f of e.target.files) {
+    const p = { id: 'extra' + (++nExtra), nome: f.name.replace(/\.[^.]+$/, ''), emoji: '🖤', cor: '#ff2e88',
+      comp: pick(['vagar','flutuar','teleportar','pular']), falas: ['🖤','rawr xD',`feliz aniversário, ${CONFIG.nome}!`], src: URL.createObjectURL(f) };
+    P[p.id] = p; sprites.push(new Sprite(p));
+  }
+  toast('GIF solto na tela! (some quando recarregar a página)');
+  e.target.value = '';
+});
+$('#pnCopiar').onclick = async () => {
+  const txt = `  spotify: ${JSON.stringify(spotifyURL)},\n\n  gifs: {\n${PERSONAGENS.map(p => `    ${p.id}: ${JSON.stringify(gifs[p.id] || '')},`).join('\n')}\n  },`;
+  const out = $('#pnSaida'); out.hidden = false; out.value = txt; out.select();
+  try { await navigator.clipboard.writeText(txt); toast('copiado! cola no CONFIG no lugar de spotify e gifs'); }
+  catch (err) { toast('copia o texto que apareceu aqui embaixo'); }
+};
+$('#pnLimpar').onclick = () => { store.limpar(); location.reload(); };
+</script>
+</body>
+</html>

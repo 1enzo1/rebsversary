@@ -1,0 +1,23 @@
+Coloque aqui os GIFs (ou PNGs) SEM FUNDO, com estes nomes:
+
+  sonic-classico.gif   -> Sonic clássico (o redondinho dos anos 90)
+  sonic.gif            -> Sonic moderno (de preferência correndo)
+  gojo.gif             -> Gojo Satoru
+  iggy.gif             -> Iggy
+  zero-two.gif         -> Zero Two
+  katarina.gif         -> Katarina
+  leblanc.gif          -> LeBlanc
+  ahri.gif             -> Ahri
+
+Se algum faltar, a página mostra um emoji no lugar (não quebra nada).
+Se o GIF for .png ou .webp, é só trocar o nome no CONFIG, lá no fim do index.html.
+
+Onde achar GIF sem fundo:
+  - giphy.com -> aba "Stickers" (stickers já vêm transparentes). Ex: "sonic sticker", "gojo sticker"
+  - tenor.com -> pesquise "<nome> transparent" ou "<nome> sticker"
+  - Sonic clássico em pixel art: procure "sonic 1 sprite gif" (The Spriters Resource, Sonic Retro)
+  - Se o GIF tiver fundo: ezgif.com -> "Effects" -> "Replace color with transparency"
+    (ou remove.bg / Photoshop pra PNG parado)
+
+Dica: no Giphy, clique com o botão direito no sticker -> "Copiar endereço da imagem".
+Você pode colar esse link direto no painel ⚙ da página (ou no CONFIG) sem baixar nada.
