@@ -1,0 +1,135 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Votação dos GIFs 🖤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Silkscreen&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a090d;--ink:#f3e9f1;--muted:#a495a8;--pink:#ff2e88;--pink2:#ff7ab8;--line:rgba(255,46,136,.35)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Space Mono',monospace;padding:0 16px 120px}
+header{max-width:980px;margin:0 auto;padding:36px 0 10px}
+h1{font-family:'Pirata One';font-weight:400;font-size:clamp(2.4rem,7vw,4rem);margin:0;color:#fff;text-shadow:0 0 20px #ff2e8866,4px 4px 0 #000}
+header p{color:var(--muted);font-size:13px;line-height:1.6;max-width:640px}
+.fundos{display:flex;gap:8px;align-items:center;font-family:Silkscreen;font-size:11px;color:var(--muted);margin-top:8px}
+.fundos button{background:#000;border:1px solid #3a2f40;color:#fff;font:11px Silkscreen;padding:6px 10px;cursor:pointer;border-radius:3px}
+.fundos button.on{border-color:var(--pink);box-shadow:2px 2px 0 var(--pink)}
+main{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.linha{background:#121016;border:1px solid #2a2230;outline:1px dashed var(--line);outline-offset:-6px;padding:18px;border-radius:4px}
+.linha h2{font-family:'Pirata One';font-weight:400;font-size:1.8rem;margin:0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.linha h2 small{font-family:'Space Mono';font-size:12px;color:var(--muted)}
+.linha h2 .ok{font-family:Silkscreen;font-size:11px;background:var(--pink);color:#000;padding:2px 7px;margin-left:auto}
+.ops{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.op{position:relative;cursor:pointer;border:2px solid #2a2230;border-radius:6px;overflow:hidden;background:#000;padding:0;color:inherit;font:inherit;text-align:left;transition:transform .15s,border-color .15s}
+.op:hover{transform:translateY(-3px);border-color:var(--pink2)}
+.op.sel{border-color:var(--pink);box-shadow:0 0 0 2px var(--pink),0 0 26px #ff2e8866}
+.op .img{aspect-ratio:1;display:grid;place-items:center}
+body.xadrez .op .img{background:repeating-conic-gradient(#2b2b2f 0 25%,#3a3a40 0 50%) 0 0/20px 20px}
+body.escuro .op .img{background:#0a090d}
+body.claro .op .img{background:#f3e9f1}
+.op img{max-width:92%;max-height:92%;object-fit:contain}
+.op .rod{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;font-family:Silkscreen;font-size:11px;background:#0d0b10}
+.op .rod a{color:var(--muted);font-family:'Space Mono';font-size:10px}
+.op .marca{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:var(--pink);color:#000;display:none;place-items:center;font-weight:700}
+.op.sel .marca{display:grid}
+.nenhum{margin-top:10px;background:none;border:0;color:var(--muted);font:11px Silkscreen;cursor:pointer;text-decoration:underline;padding:0}
+.nenhum.sel{color:var(--pink2)}
+.barra{position:fixed;left:0;right:0;bottom:0;background:#000;border-top:1px solid var(--pink);padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;z-index:5}
+.barra span{font-family:Silkscreen;font-size:12px}
+.btn{background:#000;border:1px solid var(--pink);color:#fff;padding:10px 16px;font:12px Silkscreen;cursor:pointer;border-radius:3px;box-shadow:3px 3px 0 var(--pink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink)}
+.btn.sec{border-color:#3a2f40;box-shadow:none;color:var(--muted)}
+@media (max-width:600px){.ops{gap:8px}.op .rod{padding:6px;font-size:9px}.op .rod a{display:none}}
+</style>
+</head>
+<body class="xadrez">
+<header>
+  <h1>Votação dos GIFs 🖤</h1>
+  <p>Escolhe 1 GIF por personagem clicando nele. Quando terminar, clica em <b>salvar escolhas.json</b> e me manda o arquivo. Se nenhum prestar, marca "nenhum" que eu procuro outros. As escolhas ficam salvas neste navegador até você mandar.</p>
+  <div class="fundos">fundo: <button data-f="xadrez" class="on">xadrez</button><button data-f="escuro">igual à página</button><button data-f="claro">claro</button></div>
+</header>
+<main id="lista"></main>
+<div class="barra">
+  <span id="progresso"></span>
+  <button class="btn" id="salvar">💾 salvar escolhas.json</button>
+  <button class="btn sec" id="limpar">limpar</button>
+</div>
+
+<script>
+const OPCOES = {
+  sonicClassico: { nome:'Sonic Clássico', arquivos:['sonic-classico-1.gif','sonic-classico-2.gif','sonic-classico-3.gif'],
+    fontes:['https://giphy.com/gifs/B2VCeGThGAgEJP43MN','https://giphy.com/gifs/KCwh6ZXWDqFMs','https://giphy.com/gifs/9jUfOkApNJft3Yw2ZW'] },
+  sonic: { nome:'Sonic', arquivos:['sonic-1.gif','sonic-2.gif','sonic-3.gif'],
+    fontes:['https://giphy.com/gifs/MDQtTVhLsI9DG','https://giphy.com/gifs/ClfrdDtALSEog','https://giphy.com/gifs/f5zgKbsqYc63Sb7rye'] },
+  shadow: { nome:'Shadow', arquivos:['shadow-1.gif','shadow-2.gif','shadow-3.gif'],
+    fontes:['https://giphy.com/gifs/CPe1c082mdTa0','https://giphy.com/gifs/vXOfdsOIpVFVoqV4l4','https://giphy.com/gifs/xSfRgAv5MFivYcm9nF'] },
+  tails: { nome:'Tails', arquivos:['tails-1.gif','tails-2.gif','tails-3.gif'],
+    fontes:['https://giphy.com/gifs/11o8Xd1KbniZ2g','https://giphy.com/gifs/950DEgJS45Cu8Owovx','https://giphy.com/gifs/ukntik3o59NTwMIk6C'] },
+  gojo: { nome:'Gojo Satoru', arquivos:['gojo-1.gif','gojo-2.gif','gojo-3.gif'],
+    fontes:['https://giphy.com/gifs/NFPuYx71JkroPMTvR3','https://giphy.com/gifs/tdYbdB9hKvdRq9wBn0','https://giphy.com/gifs/xlOr5doO9kKjJxHXxZ'] },
+  iggy: { nome:'Iggy', nota:'(não achei Iggy sem fundo, esses têm fundo)', arquivos:['iggy-1.gif','iggy-2.gif','iggy-3.gif'],
+    fontes:['https://media.tenor.com/I-23ZLxgNh4AAAAM/iggy.gif','https://media.tenor.com/DCmrBQjkDn0AAAAM/iggy-jojos-bizarre-adventure.gif','https://media.tenor.com/jmmJJcWZPiMAAAAM/iggy-jojo.gif'] },
+  zeroTwo: { nome:'Zero Two', arquivos:['zero-two-1.webp','zero-two-2.webp','zero-two-3.webp'],
+    fontes:['https://media.tenor.com/-HlDaCzIEbIAAAAm/zero-two-pro.webp','https://media.tenor.com/4YGbW1oL1P4AAAAm/zerotwo.webp','https://media.tenor.com/L8rF3VF6WqUAAAAm/zero-two.webp'] },
+  katarina: { nome:'Katarina', arquivos:['katarina-1.webp','katarina-2.webp','katarina-3.webp'],
+    fontes:['https://media.tenor.com/-YVl_h4x1X8AAAAm/katarina-league-of-legends.webp','https://media.tenor.com/frXl7LXL6SgAAAAm/katarina-emote.webp','https://media.tenor.com/LvThoInfEAcAAAAm/katarina.webp'] },
+  leblanc: { nome:'LeBlanc', arquivos:['leblanc-1.gif','leblanc-2.webp','leblanc-3.gif'],
+    fontes:['https://giphy.com/gifs/T6DGiz43H26yf37Gmd','https://media.tenor.com/MbvQsweF5PoAAAAm/leblanc-league-of-legends.webp','https://giphy.com/gifs/3CAutrX2TdcN5aG9zY'] },
+  ahri: { nome:'Ahri', arquivos:['ahri-1.webp','ahri-2.webp','ahri-3.webp'],
+    fontes:['https://media.tenor.com/tXuheJN81xcAAAAm/ahri-cake.webp','https://media.tenor.com/5rjn6JejPfIAAAAm/ahri-kiss.webp','https://media.tenor.com/MrIPfrqiXF8AAAAm/ahri-alerta.webp'] },
+};
+
+const CHAVE = 'rebeca:votacao';
+let escolhas = {};
+try { escolhas = JSON.parse(localStorage.getItem(CHAVE)) || {}; } catch (e) {}
+const guardar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(escolhas)); } catch (e) {} };
+
+const lista = document.getElementById('lista');
+function render() {
+  lista.innerHTML = '';
+  for (const [id, o] of Object.entries(OPCOES)) {
+    const sec = document.createElement('section'); sec.className = 'linha';
+    sec.innerHTML = `<h2>${o.nome} ${o.nota ? `<small>${o.nota}</small>` : ''}${escolhas[id] !== undefined ? '<span class="ok">✓ escolhido</span>' : ''}</h2><div class="ops"></div>`;
+    const ops = sec.querySelector('.ops');
+    o.arquivos.forEach((arq, i) => {
+      const caminho = 'gifs/opcoes/' + arq;
+      const b = document.createElement('div');
+      b.className = 'op' + (escolhas[id] === caminho ? ' sel' : ''); b.tabIndex = 0;
+      b.innerHTML = `<div class="img"><img src="${caminho}" alt="${o.nome} opção ${i + 1}" loading="lazy"></div><span class="marca">✓</span><div class="rod"><span>opção ${i + 1}</span><a href="${o.fontes[i]}" target="_blank" rel="noopener">fonte ↗</a></div>`;
+      b.querySelector('a').addEventListener('click', e => e.stopPropagation());
+      const escolher = () => { escolhas[id] = caminho; guardar(); render(); };
+      b.addEventListener('click', escolher);
+      b.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); escolher(); } });
+      ops.appendChild(b);
+    });
+    const nada = document.createElement('button');
+    nada.className = 'nenhum' + (escolhas[id] === null ? ' sel' : '');
+    nada.textContent = escolhas[id] === null ? '✗ nenhum serve (procurar outros)' : 'nenhum serve, procura outros';
+    nada.onclick = () => { escolhas[id] = null; guardar(); render(); };
+    sec.appendChild(nada);
+    lista.appendChild(sec);
+  }
+  const feitos = Object.keys(OPCOES).filter(k => escolhas[k] !== undefined).length;
+  document.getElementById('progresso').textContent = `${feitos}/${Object.keys(OPCOES).length} escolhidos`;
+}
+render();
+
+document.getElementById('salvar').onclick = () => {
+  const saida = {};
+  for (const id of Object.keys(OPCOES)) saida[id] = escolhas[id] === undefined ? '' : escolhas[id];
+  const blob = new Blob([JSON.stringify(saida, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'escolhas.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+document.getElementById('limpar').onclick = () => { escolhas = {}; guardar(); render(); };
+document.querySelectorAll('.fundos button').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.fundos button').forEach(x => x.classList.toggle('on', x === b));
+  document.body.className = b.dataset.f;
+});
+</script>
+</body>
+</html>
