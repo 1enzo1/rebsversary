@@ -106,34 +106,37 @@ button{font:inherit;color:inherit}
 .online::before{content:'';width:8px;height:8px;border-radius:50%;background:#7dff9b;box-shadow:0 0 8px #7dff9b;animation:pisca 1.2s infinite}
 @keyframes pisca{50%{opacity:.25}}
 
-/* spotify + player */
-#spotifyBox{min-height:152px;border-radius:12px;background:#000}
-#spotifyBox iframe{width:100%;border:0;border-radius:12px;display:block;background:#000}
-.sp-ctrl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
-.sp-ctrl .link{padding:0}
-input[type=text]{width:100%;background:#000;border:1px solid #3a2f40;color:#fff;padding:9px 10px;font:12px 'Space Mono';border-radius:3px;outline:none}
-input[type=text]:focus{border-color:var(--pink)}
-.btn{background:#000;border:1px solid var(--pink);color:#fff;padding:8px 12px;font-family:Silkscreen;font-size:11px;cursor:pointer;border-radius:3px;box-shadow:3px 3px 0 var(--pink);transition:transform .12s, box-shadow .12s}
-.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--pink)}
-.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink)}
+/* player (toca o Spotify escondido) */
 .link{background:none;border:0;color:var(--pink2);font-size:11px;font-family:Silkscreen;cursor:pointer;padding:8px 0 0;text-decoration:underline}
-.erro{color:#ff6b8a !important}
-.divisor{font-family:Silkscreen;font-size:11px;color:var(--muted);text-align:center;margin:18px 0 12px;display:flex;align-items:center;gap:10px}
-.divisor::before,.divisor::after{content:'';flex:1;border-top:1px dashed #3a2f40}
-.player{background:#000;border:1px solid #2a2230;padding:12px;border-radius:6px}
-.pl-head{display:flex;align-items:center;gap:10px;font-size:12px;min-height:22px}
-#plTitulo{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.player{background:#000;border:1px solid #2a2230;padding:14px;border-radius:6px}
+.pl-topo{display:flex;gap:14px;align-items:center}
+.capa{position:relative;width:88px;height:88px;flex:none;border:2px solid #fff;box-shadow:4px 4px 0 var(--pink);transform:rotate(-3deg);background:#16121a;overflow:hidden}
+.capa img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.85) contrast(1.05)}
+.capa .eq{position:absolute;left:5px;bottom:5px;padding:3px;background:#000a;border-radius:2px}
+.player.tocando .capa{animation:balanca 2.4s ease-in-out infinite}
+@keyframes balanca{50%{transform:rotate(2deg) scale(1.03)}}
+.pl-info{min-width:0;display:flex;flex-direction:column;gap:3px}
+#plTitulo{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#plArtista{font-size:12px;color:var(--pink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pl-tempo{font-family:Silkscreen;font-size:10px;color:var(--muted)}
 .eq{display:inline-flex;align-items:flex-end;gap:2px;height:16px;flex:none}
 .eq i{width:3px;height:3px;background:var(--pink);display:block}
 .player.tocando .eq i{animation:eq .8s infinite ease-in-out alternate}
 .eq i:nth-child(2){animation-delay:-.3s !important}.eq i:nth-child(3){animation-delay:-.6s !important}.eq i:nth-child(4){animation-delay:-.15s !important}.eq i:nth-child(5){animation-delay:-.45s !important}
 @keyframes eq{0%{height:3px}100%{height:16px}}
-.pl-bar{height:6px;background:#221c26;margin:10px 0;cursor:pointer;border-radius:3px;overflow:hidden}
+.pl-bar{height:8px;background:#221c26;margin:14px 0 12px;cursor:pointer;border-radius:4px;overflow:hidden}
 #plProg{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--pink))}
-.pl-ctrl{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.pl-ctrl .ic{width:36px;height:32px;background:#120f15;border:1px solid #3a2f40;border-radius:4px;cursor:pointer;font-size:13px}
+.pl-ctrl{display:flex;gap:8px;align-items:center}
+.pl-ctrl .ic{width:40px;height:36px;background:#120f15;border:1px solid #3a2f40;border-radius:4px;cursor:pointer;font-size:14px}
 .pl-ctrl .ic:hover{border-color:var(--pink)}
-.btn-file{cursor:pointer;margin-left:auto}
+.pl-ctrl .ic.play{width:52px;border-color:var(--pink);box-shadow:3px 3px 0 var(--pink)}
+.pl-ctrl .link{margin-left:auto;padding:0}
+.pl-aviso{margin:10px 0 0;font-size:11px;color:var(--muted)}
+.pl-aviso a{color:var(--pink2)}
+/* o iframe do Spotify continua na tela (senão o navegador pausa), só que invisível */
+#spotifyBox{position:absolute;right:10px;bottom:10px;width:250px;height:80px;opacity:.01;pointer-events:none;overflow:hidden}
+#spotifyBox iframe{width:100%;border:0;border-radius:12px;display:block}
+#spotifyBox.visivel{position:static;width:auto;height:auto;opacity:1;pointer-events:auto}
 
 /* carta */
 .carta{min-height:260px}
@@ -313,20 +316,25 @@ footer b{color:var(--pink2);font-weight:400}
 
       <div class="card">
         <div class="label">♫ ouvindo agora</div>
-        <div id="spotifyBox"></div>
-        <div class="sp-ctrl"><button class="btn" id="spAleatoria">🔀 próxima aleatória</button><a class="link" id="spLink" target="_blank" rel="noopener">playlist inteira ↗</a></div>
-        <div class="divisor">ou toca do computador</div>
         <div class="player" id="player">
-          <div class="pl-head"><span class="eq"><i></i><i></i><i></i><i></i><i></i></span><span id="plTitulo">nenhuma música local</span></div>
+          <div class="pl-topo">
+            <div class="capa"><img id="plCapa" alt=""><span class="eq"><i></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="pl-info">
+              <b id="plTitulo">carregando…</b>
+              <span id="plArtista"></span>
+              <span class="pl-tempo"><span id="plAgora">0:00</span> / <span id="plTotal">0:00</span></span>
+            </div>
+          </div>
           <div class="pl-bar" id="plBar"><div id="plProg"></div></div>
           <div class="pl-ctrl">
             <button class="ic" id="plPrev" title="anterior">⏮</button>
-            <button class="ic" id="plPlay" title="tocar/pausar">▶</button>
-            <button class="ic" id="plNext" title="próxima">⏭</button>
-            <label class="btn btn-file">+ músicas<input type="file" id="plFiles" accept="audio/*" multiple hidden></label>
+            <button class="ic play" id="plPlay" title="tocar/pausar">▶</button>
+            <button class="ic" id="plNext" title="próxima (aleatória)">⏭</button>
+            <a class="link" id="spLink" target="_blank" rel="noopener">via Spotify ↗</a>
           </div>
+          <p class="pl-aviso" id="plAviso" hidden>tocando prévias de 30s · <a href="https://accounts.spotify.com/login" target="_blank" rel="noopener">entra no Spotify</a> pra ouvir inteiras</p>
         </div>
-        <audio id="audio" preload="metadata"></audio>
+        <div id="spotifyBox" aria-hidden="true"></div>
       </div>
     </aside>
 
@@ -384,11 +392,7 @@ const CONFIG = {
   spotify: 'https://open.spotify.com/playlist/4hz1RpjxD4eMK2Zgc4Cr6G',
   primeiraDe: 'blink-182', // a primeira música sorteada é sempre deste artista
 
-  // músicas locais (mp3 na pasta musicas/). Tocam sozinhas quando ela clicar em "abrir".
-  musicas: [
-    // { titulo: 'Welcome to the Black Parade', arquivo: 'musicas/black-parade.mp3' },
-  ],
-  tocarAoEntrar: true,
+  tocarAoEntrar: true, // tenta dar play quando ela clicar em "abrir"
 
   // GIFs / PNGs sem fundo. Pode ser arquivo na pasta gifs/ ou link direto (https://...gif)
   gifs: {
@@ -422,106 +426,106 @@ Feliz aniversário. 🖤`,
 
 /* Faixas da playlist "on some emo shit": [id do Spotify, título, artista] */
 const FAIXAS = [
-  ["1IT0WQk5J8NsaeII8ktdlZ", "King For A Day", "Pierce The Veil, Kellin Quinn"],
-  ["2G8PweZBBwTpyP8vpNQJK2", "Caraphernelia", "Pierce The Veil"],
-  ["0JJP0IS4w0fJx01EcrfkDe", "Dear Maria, Count Me In", "All Time Low"],
-  ["50NQdrO55nqwZrDwKny5NH", "Not Good Enough For Truth In Cliché", "Escape the Fate"],
-  ["1mB7dCUM7sPyNab6R43nlj", "The Drug In Me Is You", "Falling In Reverse"],
-  ["3ouugfdFz6exFXUxu7wRvD", "If You Can't Hang", "Sleeping With Sirens"],
-  ["1Fu9o08qEKVEwzU8siVcig", "Situations", "Escape the Fate"],
-  ["7l0Lr7Tl4Gt8hQj4v3rwtf", "I'm Not A Vampire", "Falling In Reverse"],
-  ["6uSpReaIE9rsnvhmpsJClE", "Fuck You and All Your Friends", "Falling In Reverse"],
-  ["2ZhswJTKMkNNTAjrTmPhOJ", "Knives and Pens", "Black Veil Brides"],
-  ["1wFRkVclQWfMQQcaVLjmBE", "If I'm James Dean, You're Audrey Hepburn", "Sleeping With Sirens"],
-  ["4MjJlPgUYMQjvHOQq0uvOv", "Better Off Dead", "Sleeping With Sirens"],
-  ["76LGCP0g9nVknR7HD2Jjyp", "Not The American Average", "Asking Alexandria"],
-  ["01tsbILfgyMB1P3lc2cO7I", "The Final Episode (Let's Change the Channel)", "Asking Alexandria"],
-  ["582VSFPYCNvLdmXLvhoyzl", "A Prophecy", "Asking Alexandria"],
-  ["1RTYixE1DD3g3upEpmCJpa", "In The End", "Black Veil Brides"],
-  ["7scGzRwZMeHzFNuEJgnzvh", "I Won't Give In", "Asking Alexandria"],
-  ["4KOyX6IsR7kmCI82Pc7JYF", "The Death Of Me", "Asking Alexandria"],
-  ["1KTJmfwrk5pYqsi9mkY3nT", "True Friends", "Bring Me The Horizon"],
-  ["62agR37W0s0H1Xg1sUgBrz", "Killing You", "Asking Alexandria"],
-  ["45oF0uAflC04BQ6TEPe0KV", "Someone, Somewhere", "Asking Alexandria"],
-  ["0gchQwxmBWj5no8NJ8b2yH", "Sleepwalking", "Bring Me The Horizon"],
-  ["68osIGtVjM7QWVe6pazLHj", "Shadow Moses", "Bring Me The Horizon"],
-  ["0Koh9yED8UuaXvg9p5lQdB", "Go to Hell, for Heaven's Sake", "Bring Me The Horizon"],
-  ["6GoHTm0vZGTcs7I87HUIdX", "The Black", "Asking Alexandria"],
-  ["1yYE8EyuIV0rrvQ1bA2Fyf", "Happy Song", "Bring Me The Horizon"],
-  ["6o39Ln9118FKTMbM4BvcEy", "Drown", "Bring Me The Horizon"],
-  ["0xAA90OfUjpnxCw4Rf162Q", "Miles Away - feat. Kellin Quinn", "Memphis May Fire"],
-  ["769WTLxwfDPbQWl6FzXQ2h", "Fire", "Sleeping With Sirens"],
-  ["3jY2pJZvTHb4E5GeiohGUb", "To The Stage", "Asking Alexandria"],
-  ["4UJX7so2d2L2XttE5Pfwm7", "My Apocalypse", "Escape the Fate"],
-  ["5qLTzCDE84mxB0XfI5y0ud", "Dear Insanity", "Asking Alexandria"],
-  ["0cC9JOCc8noh4OlGXaBQlA", "Shadows Die", "Black Veil Brides"],
-  ["7vmrSCqKL0rJIKRxblIed2", "Breathless", "Asking Alexandria"],
-  ["4GssB27iJeqmfGxS94Tfij", "Popular Monster", "Falling In Reverse"],
-  ["5BkCDt5w0WOGgBgDC7T39i", "Drugs", "Falling In Reverse"],
-  ["5yc4CGOURXVKgSkKZ0PoLB", "Faded Out (feat. Within Temptation)", "Asking Alexandria, Within Temptation"],
-  ["0YZEYxd1oiqZRFhnnmTKKi", "Another Life", "Motionless In White"],
-  ["2NiTxIr6B5ahZfdfO8puL4", "I'm Sorry", "Drag Me Out"],
-  ["26zEMsMUCU6F9dLmTUNEBd", "The Watch Of The Buried", "Drag Me Out"],
-  ["1b0OBqaUqpblVxDyAxAyky", "Bullets in My Teeth", "Drag Me Out"],
-  ["1RXoCep9hxApPfx8UFsGZk", "Take It Out On Me", "Thousand Foot Krutch"],
-  ["0AOmbw8AwDnwXhHC3OhdVB", "Courtesy Call", "Thousand Foot Krutch"],
-  ["1qUHD9oPIMFHKpR12NY2KC", "War of Change", "Thousand Foot Krutch"],
-  ["33MnSYLvtOrbj5zwfioEiH", "Be Somebody", "Thousand Foot Krutch"],
-  ["7wdOqBy3UVKeQ1wPkHkAO1", "Complete Collapse", "Sleeping With Sirens"],
-  ["4XIlsI3Kk1ts9tVqAShi0X", "Let Me In", "Drag Me Out"],
-  ["1DaU0dIBmybT8sj7oIBsH6", "Let It Sleep", "Asking Alexandria"],
-  ["5IsSDMqDi2YmLjfx5jGDsW", "The Worst In Me", "Bad Omens"],
-  ["3lPn81PFyKvXiyHhlkwkQ4", "Doomed", "Bring Me The Horizon"],
-  ["6r7bDk4J0Okw4ezTBUQXo3", "Blasphemy", "Bring Me The Horizon"],
-  ["44sLQYgTQgGD5vCaijG8s2", "Moving On", "Asking Alexandria"],
-  ["0M3adYbGtyRHACP86dey1H", "Throne", "Bring Me The Horizon"],
-  ["4EyPadLFhtWojU7mkT5hqT", "Avalanche", "Bring Me The Horizon"],
-  ["5Gw8owErJLfkNxWCSwPQKJ", "Alone In A Room", "Asking Alexandria"],
-  ["1tbjeelOKIjolYNUNnPMAD", "Same Old War", "Our Last Night"],
-  ["0faXHILILebCGnJBPU6KJJ", "The Diary of Jane - Single Version", "Breaking Benjamin"],
-  ["2yXyz4NLTZx9CLdXfLTp5E", "I Will Not Bow", "Breaking Benjamin"],
-  ["4JXfNOePhdgMOI7KZ1L25U", "Breath", "Breaking Benjamin"],
-  ["5qMSuD0mfQVQSA0CjifBi0", "Waiting On The Sky To Change", "STARSET, Breaking Benjamin, Judge & Jury"],
-  ["6tRneEcItwpSxBtqgem5Dr", "THE DEATH OF PEACE OF MIND", "Bad Omens"],
-  ["1H4Y9uW4N0LsxJUz0VnaPJ", "Just Pretend", "Bad Omens"],
-  ["47pmY6tTSpUV8gfj7Aqoe8", "ECHO", "STARSET"],
-  ["7cJzvTM4zP6DLwE7SjaARB", "Calm Snow", "I See Stars"],
-  ["6uWgCw5aA4hr8EAvnzcsIP", "My Mistakes", "Drag Me Out"],
-  ["0xoyUiHhxVH4gwb0CRgNmg", "Like A Villain", "Bad Omens"],
-  ["3JwkRRgHtBI8RlM5hUSH28", "Dummy (with Oli Sykes of Bring Me The Horizon)", "Cheat Codes, Oli Sykes, Bring Me The Horizon"],
-  ["1u3OxJiXoYFdA0Fmd9yURC", "Limits", "Bad Omens"],
-  ["3QienJ6IMsUD8Mo24vITBg", "Stick Stickly", "Attack Attack!"],
-  ["73twCvetX8IOtkGZAgiudK", "Run Free", "Asking Alexandria"],
-  ["0pjKLGDDgo4dzTsFWLh51a", "Believe", "Asking Alexandria"],
-  ["1vhGMffxX73Lhrd10Gub1y", "Poison", "Asking Alexandria"],
-  ["73yjsVafHrOn7fQEHIbv0B", "Break Down The Walls", "Asking Alexandria"],
-  ["4701ZDhQV4CVKWvtfQheb2", "White Line Fever", "Asking Alexandria"],
-  ["0YE5MpR67mWjOkLmFjxmrP", "The Road", "Asking Alexandria"],
-  ["7a8F2PMGnYJXLUNJuTA1xW", "No Matter What", "Papa Roach"],
-  ["5W8YXBz9MTIDyrpYaCg2Ky", "Last Resort", "Papa Roach"],
-  ["4DFlUpsJOpXIJ5StT1nvCH", "If You Can't Ride Two Horses At Once...You Should Get Out Of The Circus", "Asking Alexandria"],
-  ["0SCxEUXrEWysNSALZmi1lU", "I Was Once, Possibly, Maybe, Perhaps A Cowboy King", "Asking Alexandria"],
-  ["6NlE71TbUglmKQVLhE1H8R", "Evil Eye", "Franz Ferdinand"],
-  ["2Mqw3d7zSMXLAhXyhZXv3p", "If You Have My Voodoo Doll, Give Me A Hug", "Loveless"],
-  ["4m9NfjevXsDVaLtM1kj0Sx", "crushcrushcrush", "Paramore"],
-  ["1ZLtE9tSJdaUiIJ9YoKHQe", "Decode", "Paramore"],
-  ["0UY4FvG4f9JI6kBR1BlWrZ", "That's What You Get", "Paramore"],
-  ["1Bv3h7Vc4AaYA2BcSM3rVd", "All I Wanted", "Paramore"],
-  ["63L9AjBDN3SOMbJlBkFqiZ", "Careful", "Paramore"],
-  ["47No93LxERvV6MtOAmQzHS", "Ignorance", "Paramore"],
-  ["1a9YW7fATU351ok4zWjU7a", "Brick by Boring Brick", "Paramore"],
-  ["6p9sPxEVx6Y2eiyh6JtRZD", "On Some Emo Shit", "blink-182"],
-  ["4E89wfYbGzoNolObrFhoG4", "The Only Difference Between Martyrdom and Suicide Is Press Coverage", "Panic! At The Disco"],
-  ["5cY8y2XgOfkAh4kSWLFKkz", "I Write Sins Not Tragedies", "Panic! At The Disco"],
-  ["3YD9EehnGOf88rGSZFrnHg", "Stay Together For The Kids", "blink-182"],
-  ["4LJhJ6DQS7NwE7UKtvcM52", "What's My Age Again?", "blink-182"],
-  ["3HM4NePuYAqdXpAGBk7nNz", "Always", "blink-182"],
-  ["6uDMP9Hlgy2FemC6sp9ZRt", "Boxing Day", "blink-182"],
-  ["1bvbL0HbprbpwmzwaZczr2", "Up All Night", "blink-182"],
-  ["29bWDkf8qtCmsvDWOW55CJ", "After Midnight", "blink-182"],
-  ["4M4taWkQGn3FcbH6tnH6mx", "Wishing Well", "blink-182"],
-  ["0k4jXQdPD1NkxQutE3IB1C", "Anthem", "blink-182"],
-  ["1KcmugpUozu6Llj3p5Qboa", "Obvious", "blink-182"]
+  ["1IT0WQk5J8NsaeII8ktdlZ", "King For A Day", "Pierce The Veil, Kellin Quinn", "ab67616d00001e02077cac00c2d9075e6f742570"],
+  ["2G8PweZBBwTpyP8vpNQJK2", "Caraphernelia", "Pierce The Veil", "ab67616d00001e025eae69bbe37d5f382155e387"],
+  ["0JJP0IS4w0fJx01EcrfkDe", "Dear Maria, Count Me In", "All Time Low", "ab67616d00001e02c8913cd7b91bb7f6bbbec305"],
+  ["50NQdrO55nqwZrDwKny5NH", "Not Good Enough For Truth In Cliché", "Escape the Fate", "ab67616d00001e022541614ba5551322c8a1a478"],
+  ["1mB7dCUM7sPyNab6R43nlj", "The Drug In Me Is You", "Falling In Reverse", "ab67616d00001e022a4546ed22694f4297f6bdb9"],
+  ["3ouugfdFz6exFXUxu7wRvD", "If You Can't Hang", "Sleeping With Sirens", "ab67616d00001e02e3cd706ea9791c3959d7b474"],
+  ["1Fu9o08qEKVEwzU8siVcig", "Situations", "Escape the Fate", "ab67616d00001e022541614ba5551322c8a1a478"],
+  ["7l0Lr7Tl4Gt8hQj4v3rwtf", "I'm Not A Vampire", "Falling In Reverse", "ab67616d00001e022a4546ed22694f4297f6bdb9"],
+  ["6uSpReaIE9rsnvhmpsJClE", "Fuck You and All Your Friends", "Falling In Reverse", "ab67616d00001e0250f150160dc660c5b11c754c"],
+  ["2ZhswJTKMkNNTAjrTmPhOJ", "Knives and Pens", "Black Veil Brides", "ab67616d00001e0229aa944abc7d36d614e9e075"],
+  ["1wFRkVclQWfMQQcaVLjmBE", "If I'm James Dean, You're Audrey Hepburn", "Sleeping With Sirens", "ab67616d00001e02d2cb1b09807037c68bab8b13"],
+  ["4MjJlPgUYMQjvHOQq0uvOv", "Better Off Dead", "Sleeping With Sirens", "ab67616d00001e02e64c54b4ff12ae9e458e8ba0"],
+  ["76LGCP0g9nVknR7HD2Jjyp", "Not The American Average", "Asking Alexandria", "ab67616d00001e02db321359956f3f9f4c29372a"],
+  ["01tsbILfgyMB1P3lc2cO7I", "The Final Episode (Let's Change the Channel)", "Asking Alexandria", "ab67616d00001e02db321359956f3f9f4c29372a"],
+  ["582VSFPYCNvLdmXLvhoyzl", "A Prophecy", "Asking Alexandria", "ab67616d00001e02db321359956f3f9f4c29372a"],
+  ["1RTYixE1DD3g3upEpmCJpa", "In The End", "Black Veil Brides", "ab67616d00001e029ccc759e39a5e5fc86101972"],
+  ["7scGzRwZMeHzFNuEJgnzvh", "I Won't Give In", "Asking Alexandria", "ab67616d00001e0291b43e7f8b2ce7d9393e4f36"],
+  ["4KOyX6IsR7kmCI82Pc7JYF", "The Death Of Me", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["1KTJmfwrk5pYqsi9mkY3nT", "True Friends", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["62agR37W0s0H1Xg1sUgBrz", "Killing You", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["45oF0uAflC04BQ6TEPe0KV", "Someone, Somewhere", "Asking Alexandria", "ab67616d00001e02743e9cff638bb7dd89dc039c"],
+  ["0gchQwxmBWj5no8NJ8b2yH", "Sleepwalking", "Bring Me The Horizon", "ab67616d00001e02566acaba72c5509e3887c4b0"],
+  ["68osIGtVjM7QWVe6pazLHj", "Shadow Moses", "Bring Me The Horizon", "ab67616d00001e02566acaba72c5509e3887c4b0"],
+  ["0Koh9yED8UuaXvg9p5lQdB", "Go to Hell, for Heaven's Sake", "Bring Me The Horizon", "ab67616d00001e02566acaba72c5509e3887c4b0"],
+  ["6GoHTm0vZGTcs7I87HUIdX", "The Black", "Asking Alexandria", "ab67616d00001e0291b43e7f8b2ce7d9393e4f36"],
+  ["1yYE8EyuIV0rrvQ1bA2Fyf", "Happy Song", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["6o39Ln9118FKTMbM4BvcEy", "Drown", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["0xAA90OfUjpnxCw4Rf162Q", "Miles Away - feat. Kellin Quinn", "Memphis May Fire", "ab67616d00001e0261c5b88a32459a575a273d7c"],
+  ["769WTLxwfDPbQWl6FzXQ2h", "Fire", "Sleeping With Sirens", "ab67616d00001e02e3cd706ea9791c3959d7b474"],
+  ["3jY2pJZvTHb4E5GeiohGUb", "To The Stage", "Asking Alexandria", "ab67616d00001e02743e9cff638bb7dd89dc039c"],
+  ["4UJX7so2d2L2XttE5Pfwm7", "My Apocalypse", "Escape the Fate", "ab67616d00001e022541614ba5551322c8a1a478"],
+  ["5qLTzCDE84mxB0XfI5y0ud", "Dear Insanity", "Asking Alexandria", "ab67616d00001e02743e9cff638bb7dd89dc039c"],
+  ["0cC9JOCc8noh4OlGXaBQlA", "Shadows Die", "Black Veil Brides", "ab67616d00001e029ccc759e39a5e5fc86101972"],
+  ["7vmrSCqKL0rJIKRxblIed2", "Breathless", "Asking Alexandria", "ab67616d00001e02743e9cff638bb7dd89dc039c"],
+  ["4GssB27iJeqmfGxS94Tfij", "Popular Monster", "Falling In Reverse", "ab67616d00001e025f4c9262d32be3019e1dda3e"],
+  ["5BkCDt5w0WOGgBgDC7T39i", "Drugs", "Falling In Reverse", "ab67616d00001e02f9d64ac5b0e042252e3a561a"],
+  ["5yc4CGOURXVKgSkKZ0PoLB", "Faded Out (feat. Within Temptation)", "Asking Alexandria, Within Temptation", "ab67616d00001e02b406e7fc32afa7d1956c2572"],
+  ["0YZEYxd1oiqZRFhnnmTKKi", "Another Life", "Motionless In White", "ab67616d00001e02944e11093f0e01c60be5be8f"],
+  ["2NiTxIr6B5ahZfdfO8puL4", "I'm Sorry", "Drag Me Out", "ab67616d00001e022cdfd9845137d15a5582cda6"],
+  ["26zEMsMUCU6F9dLmTUNEBd", "The Watch Of The Buried", "Drag Me Out", "ab67616d00001e02f664e7158a376fc492b4bcf6"],
+  ["1b0OBqaUqpblVxDyAxAyky", "Bullets in My Teeth", "Drag Me Out", "ab67616d00001e02bf0de9d7c5539b084a12d0f9"],
+  ["1RXoCep9hxApPfx8UFsGZk", "Take It Out On Me", "Thousand Foot Krutch", "ab67616d00001e024bba6fb7de117c1202cbdc08"],
+  ["0AOmbw8AwDnwXhHC3OhdVB", "Courtesy Call", "Thousand Foot Krutch", "ab67616d00001e021a2e4290b83a4c810d019fcd"],
+  ["1qUHD9oPIMFHKpR12NY2KC", "War of Change", "Thousand Foot Krutch", "ab67616d00001e021a2e4290b83a4c810d019fcd"],
+  ["33MnSYLvtOrbj5zwfioEiH", "Be Somebody", "Thousand Foot Krutch", "ab67616d00001e021a2e4290b83a4c810d019fcd"],
+  ["7wdOqBy3UVKeQ1wPkHkAO1", "Complete Collapse", "Sleeping With Sirens", "ab67616d00001e02a092eb9f1ea2fdb719646689"],
+  ["4XIlsI3Kk1ts9tVqAShi0X", "Let Me In", "Drag Me Out", "ab67616d00001e02bf0de9d7c5539b084a12d0f9"],
+  ["1DaU0dIBmybT8sj7oIBsH6", "Let It Sleep", "Asking Alexandria", "ab67616d00001e0291b43e7f8b2ce7d9393e4f36"],
+  ["5IsSDMqDi2YmLjfx5jGDsW", "The Worst In Me", "Bad Omens", "ab67616d00001e022c5d741251ae833b8c9d47d8"],
+  ["3lPn81PFyKvXiyHhlkwkQ4", "Doomed", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["6r7bDk4J0Okw4ezTBUQXo3", "Blasphemy", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["44sLQYgTQgGD5vCaijG8s2", "Moving On", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["0M3adYbGtyRHACP86dey1H", "Throne", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["4EyPadLFhtWojU7mkT5hqT", "Avalanche", "Bring Me The Horizon", "ab67616d00001e0290b88187a9831d91f2438927"],
+  ["5Gw8owErJLfkNxWCSwPQKJ", "Alone In A Room", "Asking Alexandria", "ab67616d00001e02a5a20911c853ddb5f03e2dbd"],
+  ["1tbjeelOKIjolYNUNnPMAD", "Same Old War", "Our Last Night", "ab67616d00001e02fefc1d9368583e76a18f1cad"],
+  ["0faXHILILebCGnJBPU6KJJ", "The Diary of Jane - Single Version", "Breaking Benjamin", "ab67616d00001e025aa75a47afe2804e280bd149"],
+  ["2yXyz4NLTZx9CLdXfLTp5E", "I Will Not Bow", "Breaking Benjamin", "ab67616d00001e0208cdafd988bd04d9b14159d3"],
+  ["4JXfNOePhdgMOI7KZ1L25U", "Breath", "Breaking Benjamin", "ab67616d00001e025aa75a47afe2804e280bd149"],
+  ["5qMSuD0mfQVQSA0CjifBi0", "Waiting On The Sky To Change", "STARSET, Breaking Benjamin, Judge & Jury", "ab67616d00001e02398ca26c0320f0d95ffb0b1d"],
+  ["6tRneEcItwpSxBtqgem5Dr", "THE DEATH OF PEACE OF MIND", "Bad Omens", "ab67616d00001e02e5f6f7ec99735d7b870f18ae"],
+  ["1H4Y9uW4N0LsxJUz0VnaPJ", "Just Pretend", "Bad Omens", "ab67616d00001e02e5f6f7ec99735d7b870f18ae"],
+  ["47pmY6tTSpUV8gfj7Aqoe8", "ECHO", "STARSET", "ab67616d00001e024fd0756c55d336d7e533ebcd"],
+  ["7cJzvTM4zP6DLwE7SjaARB", "Calm Snow", "I See Stars", "ab67616d00001e02f1039d70f4252cca6bb2af01"],
+  ["6uWgCw5aA4hr8EAvnzcsIP", "My Mistakes", "Drag Me Out", "ab67616d00001e02bf0de9d7c5539b084a12d0f9"],
+  ["0xoyUiHhxVH4gwb0CRgNmg", "Like A Villain", "Bad Omens", "ab67616d00001e02e5f6f7ec99735d7b870f18ae"],
+  ["3JwkRRgHtBI8RlM5hUSH28", "Dummy (with Oli Sykes of Bring Me The Horizon)", "Cheat Codes, Oli Sykes, Bring Me The Horizon", "ab67616d00001e022aad25a7fc1a2816fc6fa0fd"],
+  ["1u3OxJiXoYFdA0Fmd9yURC", "Limits", "Bad Omens", "ab67616d00001e0294142b2bc30da66a2d381fc8"],
+  ["3QienJ6IMsUD8Mo24vITBg", "Stick Stickly", "Attack Attack!", "ab67616d00001e0203d975f02a33120a6215aef0"],
+  ["73twCvetX8IOtkGZAgiudK", "Run Free", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["0pjKLGDDgo4dzTsFWLh51a", "Believe", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["1vhGMffxX73Lhrd10Gub1y", "Poison", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["73yjsVafHrOn7fQEHIbv0B", "Break Down The Walls", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["4701ZDhQV4CVKWvtfQheb2", "White Line Fever", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["0YE5MpR67mWjOkLmFjxmrP", "The Road", "Asking Alexandria", "ab67616d00001e021c43882a4c59231d0a569a68"],
+  ["7a8F2PMGnYJXLUNJuTA1xW", "No Matter What", "Papa Roach", "ab67616d00001e0237c7312b5df797a7368c08be"],
+  ["5W8YXBz9MTIDyrpYaCg2Ky", "Last Resort", "Papa Roach", "ab67616d00001e02985bf5ede2fe4a048ee85f28"],
+  ["4DFlUpsJOpXIJ5StT1nvCH", "If You Can't Ride Two Horses At Once...You Should Get Out Of The Circus", "Asking Alexandria", "ab67616d00001e02db321359956f3f9f4c29372a"],
+  ["0SCxEUXrEWysNSALZmi1lU", "I Was Once, Possibly, Maybe, Perhaps A Cowboy King", "Asking Alexandria", "ab67616d00001e02db321359956f3f9f4c29372a"],
+  ["6NlE71TbUglmKQVLhE1H8R", "Evil Eye", "Franz Ferdinand", "ab67616d00001e02f85c427ae396ec88898572f5"],
+  ["2Mqw3d7zSMXLAhXyhZXv3p", "If You Have My Voodoo Doll, Give Me A Hug", "Loveless", "ab67616d00001e02e5527e07c20c53db6b10f435"],
+  ["4m9NfjevXsDVaLtM1kj0Sx", "crushcrushcrush", "Paramore", "ab67616d00001e0269966efa45b125ed6711b43c"],
+  ["1ZLtE9tSJdaUiIJ9YoKHQe", "Decode", "Paramore", "ab67616d00001e02b236d0eae2659e7e7adb8b56"],
+  ["0UY4FvG4f9JI6kBR1BlWrZ", "That's What You Get", "Paramore", "ab67616d00001e0269966efa45b125ed6711b43c"],
+  ["1Bv3h7Vc4AaYA2BcSM3rVd", "All I Wanted", "Paramore", "ab67616d00001e02e01d7d558032457b0e4883f6"],
+  ["63L9AjBDN3SOMbJlBkFqiZ", "Careful", "Paramore", "ab67616d00001e02e01d7d558032457b0e4883f6"],
+  ["47No93LxERvV6MtOAmQzHS", "Ignorance", "Paramore", "ab67616d00001e02e01d7d558032457b0e4883f6"],
+  ["1a9YW7fATU351ok4zWjU7a", "Brick by Boring Brick", "Paramore", "ab67616d00001e02e01d7d558032457b0e4883f6"],
+  ["6p9sPxEVx6Y2eiyh6JtRZD", "On Some Emo Shit", "blink-182", "ab67616d00001e0206d2ecac7ede8709fb3e57f1"],
+  ["4E89wfYbGzoNolObrFhoG4", "The Only Difference Between Martyrdom and Suicide Is Press Coverage", "Panic! At The Disco", "ab67616d00001e02db91b52ea052f3a6ad7bf8b1"],
+  ["5cY8y2XgOfkAh4kSWLFKkz", "I Write Sins Not Tragedies", "Panic! At The Disco", "ab67616d00001e02db91b52ea052f3a6ad7bf8b1"],
+  ["3YD9EehnGOf88rGSZFrnHg", "Stay Together For The Kids", "blink-182", "ab67616d00001e02d9d27e5b56e2b983e54dba64"],
+  ["4LJhJ6DQS7NwE7UKtvcM52", "What's My Age Again?", "blink-182", "ab67616d00001e026da502e35a7a3e48de2b0f74"],
+  ["3HM4NePuYAqdXpAGBk7nNz", "Always", "blink-182", "ab67616d00001e020538b48c180256e0bdd8363f"],
+  ["6uDMP9Hlgy2FemC6sp9ZRt", "Boxing Day", "blink-182", "ab67616d00001e0213ce5fdfcbe002c5e0d8d65b"],
+  ["1bvbL0HbprbpwmzwaZczr2", "Up All Night", "blink-182", "ab67616d00001e02ab8afa7c4e5af4d75b647b6e"],
+  ["29bWDkf8qtCmsvDWOW55CJ", "After Midnight", "blink-182", "ab67616d00001e02ab8afa7c4e5af4d75b647b6e"],
+  ["4M4taWkQGn3FcbH6tnH6mx", "Wishing Well", "blink-182", "ab67616d00001e02ab8afa7c4e5af4d75b647b6e"],
+  ["0k4jXQdPD1NkxQutE3IB1C", "Anthem", "blink-182", "ab67616d00001e026da502e35a7a3e48de2b0f74"],
+  ["1KcmugpUozu6Llj3p5Qboa", "Obvious", "blink-182", "ab67616d00001e020538b48c180256e0bdd8363f"]
 ];
 
 /* =====================================================================
@@ -1043,8 +1047,9 @@ PERSONAGENS.forEach((p, i) => {
 /* =====================================================================
    MÚSICA — Spotify + player local
    ===================================================================== */
-// Toca as faixas da playlist em ordem aleatória, uma por vez, pelo iFrame API do Spotify.
-// A primeira é sempre de CONFIG.primeiraDe; quando uma acaba, entra a próxima sorteada.
+// O player da página controla um embed do Spotify invisível (iFrame API).
+// As faixas tocam em ordem aleatória; a primeira é sempre de CONFIG.primeiraDe
+// e, quando uma acaba, entra a próxima sorteada.
 const playlistId = (CONFIG.spotify.match(/playlist\/([A-Za-z0-9]+)/) || [])[1];
 $('#spLink').href = CONFIG.spotify;
 const embaralhada = (() => {
@@ -1054,71 +1059,75 @@ const embaralhada = (() => {
   if (k > 0) f.unshift(f.splice(k, 1)[0]);
   return f;
 })();
-let faixaAtual = 0, sp = null, ultimaPos = 0, ultimaDur = 0, trocando = false;
+const player = $('#player');
+let faixaAtual = 0, sp = null, ultimaPos = 0, ultimaDur = 0, trocando = false, jaTocou = false, querTocar = false;
 const uriDa = i => 'spotify:track:' + embaralhada[i][0];
+const mmss = ms => { const s = Math.max(0, Math.round(ms / 1000)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+
+function mostrarFaixa() {
+  const [, titulo, artista, capa] = embaralhada[faixaAtual];
+  $('#plTitulo').textContent = titulo; $('#plArtista').textContent = artista;
+  $('#plCapa').src = capa ? 'https://i.scdn.co/image/' + capa : '';
+  $('#plAgora').textContent = '0:00'; $('#plTotal').textContent = '0:00'; $('#plProg').style.width = '0';
+}
 function tocarFaixa(i) {
   faixaAtual = (i + embaralhada.length) % embaralhada.length;
-  ultimaPos = ultimaDur = 0; trocando = true;
-  sp.loadUri(uriDa(faixaAtual)); sp.play();
-  setTimeout(() => { trocando = false; }, 1500);
+  mostrarFaixa();
+  if (!sp) return;
+  ultimaPos = ultimaDur = 0; trocando = true; jaTocou = true; querTocar = true;
+  sp.loadUri(uriDa(faixaAtual)); // o play vem no evento 'ready', quando a faixa termina de carregar
+  clearTimeout(tocarFaixa.t);
+  tocarFaixa.t = setTimeout(() => { trocando = false; if (querTocar) sp.play(); }, 2500);
 }
+function tocarOuPausar() {
+  if (!sp) return;
+  querTocar = false;
+  if (!jaTocou) { jaTocou = true; sp.play(); } else sp.togglePlay();
+}
+mostrarFaixa();
+
 window.onSpotifyIframeApiReady = API => {
   const alvo = document.createElement('div'); $('#spotifyBox').appendChild(alvo);
-  API.createController(alvo, { uri: uriDa(0), width: '100%', height: 152 }, c => {
+  API.createController(alvo, { uri: uriDa(0), width: '100%', height: 80 }, c => {
     sp = c;
+    c.addListener('ready', () => { if (querTocar) c.play(); });
     c.addListener('playback_update', e => {
       const { isPaused, position, duration } = e.data;
-      if (trocando || !duration) return;
+      if (!isPaused) querTocar = false;
+      player.classList.toggle('tocando', !isPaused);
+      $('#plPlay').textContent = isPaused ? '▶' : '❚❚';
+      if (!duration) return;
+      $('#plAgora').textContent = mmss(position); $('#plTotal').textContent = mmss(duration);
+      $('#plProg').style.width = Math.min(100, position / duration * 100) + '%';
+      $('#plAviso').hidden = duration > 31000;
+      if (trocando) return;
       const fim = position >= duration - 400 || (isPaused && ultimaDur && ultimaPos >= ultimaDur - 1500);
       if (fim) return tocarFaixa(faixaAtual + 1);
       if (!isPaused) { ultimaPos = position; ultimaDur = duration; }
     });
   });
 };
-$('#spAleatoria').onclick = () => { if (sp) tocarFaixa(faixaAtual + 1); };
+$('#plPlay').onclick = tocarOuPausar;
+$('#plNext').onclick = () => tocarFaixa(faixaAtual + 1);
+// ⏮ volta pro começo da música; se já estiver no começo, vai pra anterior
+// (recarrega a faixa pra voltar ao início: o seek(0) do Spotify é ignorado)
+$('#plPrev').onclick = () => tocarFaixa(ultimaPos > 3000 ? faixaAtual : faixaAtual - 1);
+$('#plBar').onclick = e => {
+  if (!sp || !ultimaDur) return;
+  const r = e.currentTarget.getBoundingClientRect();
+  sp.seek((e.clientX - r.left) / r.width * ultimaDur / 1000);
+};
 {
   const s = document.createElement('script'); s.src = 'https://open.spotify.com/embed/iframe-api/v1'; s.async = true;
   document.head.appendChild(s);
-  // se o iFrame API não carregar, mostra a playlist normal
+  // se o iFrame API não carregar, mostra o embed normal da playlist no lugar do player
   setTimeout(() => {
     if (sp || !playlistId) return;
-    $('#spotifyBox').innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`;
-    $('#spAleatoria').hidden = true;
+    player.hidden = true;
+    const box = $('#spotifyBox'); box.classList.add('visivel');
+    box.innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`;
   }, 10000);
 }
-
-const audio = $('#audio'), player = $('#player');
-const fila = CONFIG.musicas.map(m => ({ titulo: m.titulo, src: m.arquivo }));
-let idx = 0, errosSeguidos = 0;
-if (fila.length) $('#plTitulo').textContent = fila[0].titulo;
-function carregar(i, tocar) {
-  if (!fila.length) return;
-  idx = (i + fila.length) % fila.length;
-  audio.src = fila[idx].src; $('#plTitulo').textContent = fila[idx].titulo;
-  if (tocar) audio.play().catch(() => {});
-}
-$('#plPlay').onclick = () => {
-  if (!fila.length) return $('#plFiles').click();
-  if (!audio.src) return carregar(idx, true);
-  audio.paused ? audio.play().catch(() => {}) : audio.pause();
-};
-$('#plNext').onclick = () => carregar(idx + 1, true);
-$('#plPrev').onclick = () => carregar(idx - 1, true);
-$('#plBar').onclick = e => { if (audio.duration) { const r = e.currentTarget.getBoundingClientRect(); audio.currentTime = (e.clientX - r.left) / r.width * audio.duration; } };
-audio.addEventListener('play', () => { player.classList.add('tocando'); $('#plPlay').textContent = '❚❚'; errosSeguidos = 0; });
-audio.addEventListener('pause', () => { player.classList.remove('tocando'); $('#plPlay').textContent = '▶'; });
-audio.addEventListener('ended', () => carregar(idx + 1, true));
-audio.addEventListener('timeupdate', () => { $('#plProg').style.width = (audio.currentTime / (audio.duration || 1) * 100) + '%'; });
-audio.addEventListener('error', () => {
-  $('#plTitulo').textContent = 'não achei: ' + fila[idx].src;
-  if (++errosSeguidos < fila.length) setTimeout(() => carregar(idx + 1, true), 1200);
-});
-$('#plFiles').addEventListener('change', e => {
-  const novas = [...e.target.files].map(f => ({ titulo: f.name.replace(/\.[^.]+$/, ''), src: URL.createObjectURL(f) }));
-  if (!novas.length) return;
-  const primeira = fila.length; fila.push(...novas); carregar(primeira, true);
-  e.target.value = '';
-});
 
 /* =====================================================================
    CARTA (máquina de escrever) + BOLO
@@ -1163,7 +1172,7 @@ $('#entrar').onclick = () => {
   $('#portao').classList.add('fora');
   setTimeout(() => $('#portao').remove(), 900);
   confete(W / 2, H / 2, 160); coracoes(W / 2, H / 2, 30);
-  if (CONFIG.tocarAoEntrar && fila.length) carregar(0, true);
+  if (CONFIG.tocarAoEntrar) tocarOuPausar();
   setTimeout(() => { const s = sprites.find(x => x.p.id === 'gojo'); if (s && efeitos.personagens) s.fala(`Feliz aniversário, ${CONFIG.nome}! 😎`); }, 1200);
   observarCarta();
 };

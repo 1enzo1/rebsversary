@@ -1,9 +1,0 @@
-Coloque aqui os .mp3 e liste no CONFIG (fim do index.html), por exemplo:
-
-  musicas: [
-    { titulo: 'Welcome to the Black Parade', arquivo: 'musicas/black-parade.mp3' },
-    { titulo: 'Misery Business',             arquivo: 'musicas/misery-business.mp3' },
-  ],
-
-Elas tocam sozinhas quando a Rebeca clicar em "abrir (se tiver coragem)".
-Também dá pra escolher músicas na hora, pelo botão "+ músicas" da página.
