@@ -91,10 +91,22 @@ button{font:inherit;color:inherit}
   padding:22px;border-radius:4px;box-shadow:0 12px 40px #0009;position:relative}
 .label{display:inline-block;font-family:Silkscreen;font-size:12px;background:var(--pink);color:#000;padding:3px 9px;margin-bottom:16px;letter-spacing:.04em}
 
-.foto{position:relative;aspect-ratio:1;background:#000;border:3px solid #fff;box-shadow:6px 6px 0 var(--pink);transform:rotate(-2deg);overflow:hidden}
-.foto img{width:100%;height:100%;object-fit:cover;filter:contrast(1.1) saturate(.75);transition:filter .4s}
-.foto:hover img{filter:none}
+.foto{position:relative;aspect-ratio:1;background:#000;border:3px solid #fff;box-shadow:6px 6px 0 var(--pink);transform:rotate(-2deg);overflow:hidden;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent}
+.foto:focus-visible{outline:2px dashed var(--pink2);outline-offset:4px}
+/* filtro de câmera antiga: cor lavada + granulado + vinheta + vazamento de luz */
+.foto img{width:100%;height:100%;object-fit:cover;object-position:center 30%;display:block;
+  filter:sepia(.32) contrast(1.08) saturate(.8) brightness(1.04) hue-rotate(-6deg)}
+.foto .velho{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse at 85% 10%,rgba(255,140,60,.28),transparent 45%),
+    radial-gradient(ellipse at center,transparent 50%,rgba(20,8,0,.55) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  mix-blend-mode:overlay;opacity:.9}
+.foto .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.foto.trocou .flash{animation:flash .45s ease-out}
+@keyframes flash{0%{opacity:.85}100%{opacity:0}}
 .foto::after{content:'♥';position:absolute;right:8px;top:4px;font-size:30px;color:var(--pink);text-shadow:2px 2px 0 #000}
+.foto-cont{font-family:Silkscreen;font-size:10px;color:var(--muted);text-align:right;margin-top:12px;opacity:.7}
 .foto-vazia{display:none;position:absolute;inset:0;place-items:center;text-align:center;font-size:64px;
   background:repeating-linear-gradient(45deg,#111 0 12px,#18131c 12px 24px)}
 .foto-vazia small{display:block;font-size:12px;color:var(--muted);margin-top:8px;font-family:Silkscreen}
@@ -300,10 +312,12 @@ footer b{color:var(--pink2);font-weight:400}
     <aside class="col">
       <div class="card foto-card">
         <div class="label">perfil</div>
-        <div class="foto" id="fotoBox">
+        <div class="foto" id="fotoBox" role="button" tabindex="0" title="clica pra ver a próxima">
           <img id="foto" alt="">
-          <div class="foto-vazia"><div>🖤<small>salve uma foto como foto.jpg</small></div></div>
+          <span class="velho"></span><span class="flash"></span>
+          <div class="foto-vazia"><div>🖤<small>coloque fotos na pasta fotos/</small></div></div>
         </div>
+        <div class="foto-cont" id="fotoCont"></div>
         <h3 data-nome>Rebeca</h3>
         <ul class="stats">
           <li><b>idade:</b><span data-idade>29</span> (mentalmente: 2007)</li>
@@ -385,8 +399,12 @@ const CONFIG = {
   nome: 'Rebeca',
   idade: 29,
 
-  // foto dela (coloque o arquivo na mesma pasta do index.html). Deixe '' pra não usar.
-  foto: 'foto.jpg',
+  // fotos do perfil, na ordem em que aparecem (cada clique mostra a próxima)
+  fotos: [
+    'fotos/foto-01.jpg', 'fotos/foto-02.jpg', 'fotos/foto-03.jpg', 'fotos/foto-04.jpg',
+    'fotos/foto-05.jpg', 'fotos/foto-06.jpg', 'fotos/foto-07.jpg', 'fotos/foto-08.jpg',
+    'fotos/foto-09.jpg', 'fotos/foto-10.jpg', 'fotos/foto-11.jpg', 'fotos/foto-12.jpg',
+  ],
 
   // playlist do Spotify: as faixas tocam em ordem aleatória (lista em FAIXAS, logo abaixo do CONFIG)
   spotify: 'https://open.spotify.com/playlist/4hz1RpjxD4eMK2Zgc4Cr6G',
@@ -588,9 +606,21 @@ $('#assinatura').textContent = CONFIG.assinatura;
   $('#mq').innerHTML = linha + linha;
 }
 {
-  const foto = $('#foto');
-  if (!CONFIG.foto) $('#fotoBox').classList.add('vazia');
-  else { foto.onerror = () => $('#fotoBox').classList.add('vazia'); foto.alt = CONFIG.nome; foto.src = CONFIG.foto; }
+  const box = $('#fotoBox'), img = $('#foto'), fotos = CONFIG.fotos;
+  let atual = 0;
+  const mostrar = i => {
+    atual = (i + fotos.length) % fotos.length;
+    img.src = fotos[atual];
+    $('#fotoCont').textContent = `${atual + 1}/${fotos.length}`;
+    new Image().src = fotos[(atual + 1) % fotos.length]; // já carrega a próxima
+  };
+  const proxima = () => { box.classList.remove('trocou'); void box.offsetWidth; box.classList.add('trocou'); mostrar(atual + 1); };
+  if (!fotos.length) box.classList.add('vazia');
+  else {
+    img.alt = CONFIG.nome; mostrar(0);
+    box.addEventListener('click', proxima);
+    box.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); proxima(); } });
+  }
 }
 $('#velas').innerHTML = String(CONFIG.idade).split('').map(d => `<div class="vela"><span class="chama"></span>${d}</div>`).join('');
 
