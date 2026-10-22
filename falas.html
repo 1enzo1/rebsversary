@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Escolha das Falas 🖤</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Silkscreen&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a090d;--ink:#f3e9f1;--muted:#a495a8;--pink:#ff2e88;--pink2:#ff7ab8;--line:rgba(255,46,136,.35)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Space Mono',monospace;padding:0 16px 120px}
+header,main{max-width:900px;margin:0 auto}
+header{padding:36px 0 10px}
+h1{font-family:'Pirata One';font-weight:400;font-size:clamp(2.4rem,7vw,4rem);margin:0;color:#fff;text-shadow:0 0 20px #ff2e8866,4px 4px 0 #000}
+header p{color:var(--muted);font-size:13px;line-height:1.6;max-width:660px}
+main{display:flex;flex-direction:column;gap:18px}
+.card{background:#121016;border:1px solid #2a2230;outline:1px dashed var(--line);outline-offset:-6px;padding:18px 20px;border-radius:4px}
+.card h2{font-family:'Pirata One';font-weight:400;font-size:1.9rem;margin:0 0 4px;display:flex;align-items:center;gap:10px}
+.card h2 .av{width:44px;height:44px;object-fit:contain}
+.sec{font-family:Silkscreen;font-size:11px;color:var(--pink2);margin:14px 0 6px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border:1px solid #2a2230;border-radius:4px;margin-bottom:6px;cursor:pointer;font-size:13px;line-height:1.5;background:#0d0b10}
+.opt:hover{border-color:var(--pink2)}
+.opt input{accent-color:var(--pink);margin-top:4px;flex:none}
+.opt .tag{font-family:Silkscreen;font-size:10px;color:#000;background:var(--muted);padding:1px 6px;border-radius:2px;flex:none;margin-top:2px}
+.opt .tag.novo{background:var(--pink2)}
+.opt:has(input:checked){border-color:var(--pink);background:#1a0f17}
+.opt textarea,.opt input[type=text]{flex:1;background:#000;border:1px solid #3a2f40;color:#fff;font:13px 'Space Mono';padding:6px 8px;border-radius:3px;resize:vertical}
+.aviso{color:#ff6b8a;font-size:11px;font-family:Silkscreen;margin-top:4px;display:none}
+.aviso.on{display:block}
+.barra{position:fixed;left:0;right:0;bottom:0;background:#000;border-top:1px solid var(--pink);padding:12px 16px;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;z-index:5}
+.btn{background:#000;border:1px solid var(--pink);color:#fff;padding:10px 16px;font:12px Silkscreen;cursor:pointer;border-radius:3px;box-shadow:3px 3px 0 var(--pink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--pink)}
+.btn.sec2{border-color:#3a2f40;box-shadow:none;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Escolha das Falas 🖤</h1>
+  <p>Para cada personagem: escolha <b>1 recado</b> (o texto da seção Recados) e marque as <b>falas</b> que ficam (os balões; pode marcar quantas quiser, mínimo 1). Já vem marcado o que está na página hoje. Dá pra escrever a sua também. No fim, clica em <b>salvar falas.json</b> e me manda.</p>
+</header>
+<main id="lista"></main>
+<div class="barra">
+  <button class="btn" id="salvar">💾 salvar falas.json</button>
+  <button class="btn sec2" id="limpar">voltar ao original</button>
+</div>
+
+<script>
+const DADOS = [
+  { id:'sonicClassico', nome:'Sonic Clássico', gif:'gifs/opcoes/sonic-classico-3.gif',
+    recados:['Fiquei 29 anos parado na tela de título esperando você apertar START. Feliz aniversário! 💍',
+             'Peguei todas as Esmeraldas do Caos e pedi uma coisa só: que seu ano seja bom igual a música da Green Hill. 💍',
+             '29 anos e nenhum Game Over. Continua assim, Rebeca! ⭐'],
+    falas:['Achei 29 rings! Um pra cada ano 💍','Aperta START, Rebeca!','*bate o pé impaciente*'],
+    novas:['1UP! Mais um ano desbloqueado ⭐','Já zerei a Green Hill, agora é sua vez!'] },
+  { id:'sonic', nome:'Sonic', gif:'gifs/opcoes/sonic-2.gif',
+    recados:['Passei aqui correndo só pra dizer: feliz aniversário! Já voltei pra Green Hill, beijo 💨',
+             'Dei a volta no mundo em 3 segundos pra comprar seu presente. Esqueci na loja. Feliz aniversário mesmo assim! 💨',
+             'Ficando velha? Nada. Só tá ficando mais rápida. Parabéns, Rebeca! 💨'],
+    falas:['Gotta go fast! 💨','29? Tá rápida, hein!','Bora, o bolo não se come sozinho!'],
+    novas:['Chili dog de aniversário? 🌭','Too slow! ...brincadeira, parabéns!'] },
+  { id:'shadow', nome:'Shadow', gif:'gifs/opcoes/shadow-3.gif',
+    recados:['Hmph. Eu não ligo pra aniversários. ...Mas desse eu vim. Feliz aniversário, Rebeca. Bem-vinda ao clube do preto. 🖤',
+             'Parei o tempo com o Chaos Control só pra esse dia durar mais. De nada. 🖤',
+             'Não espera que eu cante parabéns. ...Tá bom. Só uma vez. 🖤'],
+    falas:['Hmph. Parabéns, eu acho.','Eu sou a forma de vida suprema.','Eu também só uso preto. 🖤'],
+    novas:['Não tô sorrindo. É o reflexo.','Chaos... CONTROL! (do bolo)'] },
+  { id:'tails', nome:'Tails', gif:'gifs/opcoes/tails-3.gif',
+    recados:['Fiz um aviãozinho de papel escrito PARABÉNS e mandei voando pra você. Ele caiu no bolo. Feliz aniversário mesmo assim! ✈️',
+             'Fiz as contas: em 29 anos você já ouviu umas 40 mil horas de música triste. Orgulho. Feliz aniversário! 🔧',
+             'Tentei construir uma máquina do tempo pra chegar mais cedo no seu aniversário. Explodiu. Mas cheguei! ✈️'],
+    falas:['Me esperem!','Construí um bolo-robô pra você! 🔧','Olha, sem as mãos! ✈️'],
+    novas:['Minhas caudas giram mais rápido quando tô feliz!','O Tornado tá pronto pra festa! ✈️'] },
+  { id:'gojo', nome:'Gojo Satoru', gif:'gifs/opcoes/gojo-2.gif',
+    recados:['Entre o céu e a terra, só existe uma aniversariante hoje. Parabéns! (depois de mim, você é a mais forte) 🕶️',
+             'Tirei a venda só pra ver o tamanho do bolo. Aprovado. Feliz aniversário, Rebeca! 🕶️',
+             'Meu Infinito bloqueia tudo, menos o convite pra sua festa. Parabéns! 😎'],
+    falas:['Relaxa. Eu sou o mais forte. 😎','Hoje você é a mais forte. Depois de mim.','Você tá linda hoje. Eu também, óbvio.'],
+    novas:['Trouxe kikufuku? Não? Decepcionante. 🍡','Fica tranquila, eu tô aqui. 😎'] },
+  { id:'iggy', nome:'Iggy', gif:'gifs/opcoes/iggy-1.gif',
+    recados:['*rosna* ... *come metade do bolo* ... *rosna menos* ... feliz aniversário, humana. 🐾',
+             '*arranca o chapéu de festa de alguém* ...esse é meu agora. Parabéns. 🐾',
+             'Não gosto de humanos. Você é a exceção. Hoje. Só hoje. 🐾'],
+    falas:['*rosna*','*rouba um pedaço do bolo*','Tem chiclete de café? Não? Tchau.'],
+    novas:['*cava um buraco no jardim*','*joga areia na cara do Shadow*'] },
+  { id:'zeroTwo', nome:'Zero Two', gif:'gifs/opcoes/zero-two-3.webp',
+    recados:['Hoje você é a minha darling. Me guarda o pedaço com mais cobertura, tá? 🍯💕',
+             'Dizem que quem come o primeiro pedaço do bolo fica com a pessoa pra sempre. Já comi. Agora você é minha darling. 💕',
+             'Os chifres são de verdade. O carinho também. Feliz aniversário~ 🌸'],
+    falas:['Darling~ 💕','Achei você, Rebeca~','Me dá um docinho? 🍯'],
+    novas:['Darling, você é doce igual mel 🍯','Bora pilotar juntas? 💕'] },
+  { id:'katarina', nome:'Katarina', gif:'gifs/opcoes/katarina-1.webp',
+    recados:['Violência resolve quase tudo. O que não resolve, bolo resolve. Feliz aniversário! 🗡️',
+             'Se alguém estragar sua festa, me chama. Tenho adaga sobrando. 🗡️',
+             'Joguei 29 adagas, uma pra cada ano. Todas no alvo. Feliz aniversário! 🗡️'],
+    falas:['Violência resolve.','Shunpo! 🗡️','Pentakill de parabéns!'],
+    novas:['Ninguém escapa do meu parabéns! 🗡️','Lótus da Morte... de confete!'] },
+  { id:'leblanc', nome:'LeBlanc', gif:'gifs/opcoes/leblanc-2.webp',
+    recados:['Tem certeza que você fez 29 mesmo? Nada é o que parece. Mas o parabéns é verdadeiro 🪞',
+             'Mandei uma cópia minha pra festa e fiquei em casa. Ou foi o contrário? Feliz aniversário. 🪞',
+             'Sei todos os seus segredos. Vou guardar todos. Presente de aniversário. 😈'],
+    falas:['Nada é o que parece...','Essa sou eu? Ou a outra? 😈','Segredos... e bolo.'],
+    novas:['Errou! Era a falsa 😈','Uma máscara pra cada humor 🪞'] },
+  { id:'ahri', nome:'Ahri', gif:'gifs/opcoes/ahri-1.webp',
+    recados:['Joguei um charme no seu ano novo: só coisa boa vai se apaixonar por você. Feliz aniversário 🦊💕',
+             'Troquei minhas nove caudas por vinte e nove velinhas. Só hoje. Parabéns! 🦊',
+             'Ninguém resiste ao meu charme. Mas hoje quem encanta é você. 💕'],
+    falas:['Vem cá~ 💕','Charme de aniversário!','Nove caudas, vinte e nove anos 🦊'],
+    novas:['Um beijinho de raposa? 💋','Fogo de raposa pra acender suas velas 🔥'] },
+];
+
+const CHAVE = 'rebeca:falas';
+let estado = {};
+try { estado = JSON.parse(localStorage.getItem(CHAVE)) || {}; } catch (e) {}
+const guardar = () => { try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) {} };
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+
+// estado[id] = { recado: 0|1|2|'livre', recadoLivre:'', falas:[índices], falaLivre:'' }
+function padrao(d) { return { recado: 0, recadoLivre: '', falas: [0, 1, 2], falaLivre: '' }; }
+
+function render() {
+  const lista = document.getElementById('lista'); lista.innerHTML = '';
+  for (const d of DADOS) {
+    const st = estado[d.id] || (estado[d.id] = padrao(d));
+    const todas = [...d.falas, ...d.novas];
+    const card = document.createElement('section'); card.className = 'card';
+    card.innerHTML = `<h2><img class="av" src="${d.gif}" alt="">${d.nome}</h2>
+      <div class="sec">recado (escolha 1)</div>
+      ${d.recados.map((r, i) => `<label class="opt"><input type="radio" name="r-${d.id}" value="${i}" ${st.recado === i ? 'checked' : ''}><span class="tag ${i ? 'novo' : ''}">${i === 0 ? 'atual' : i === 1 ? 'A' : 'B'}</span><span>${esc(r)}</span></label>`).join('')}
+      <label class="opt"><input type="radio" name="r-${d.id}" value="livre" ${st.recado === 'livre' ? 'checked' : ''}><span class="tag novo">meu</span><textarea rows="2" placeholder="escreve o seu recado...">${esc(st.recadoLivre)}</textarea></label>
+      <div class="sec">falas (marque as que ficam)</div>
+      ${todas.map((f, i) => `<label class="opt"><input type="checkbox" value="${i}" ${st.falas.includes(i) ? 'checked' : ''}><span class="tag ${i >= d.falas.length ? 'novo' : ''}">${i >= d.falas.length ? 'nova' : 'atual'}</span><span>${esc(f)}</span></label>`).join('')}
+      <label class="opt"><input type="checkbox" value="livre" ${st.falaLivre ? 'checked' : ''} disabled><span class="tag novo">minha</span><input type="text" placeholder="escreve uma fala sua (opcional)" value="${esc(st.falaLivre)}"></label>
+      <div class="aviso">marca pelo menos 1 fala</div>`;
+
+    card.querySelectorAll(`input[name="r-${d.id}"]`).forEach(r => r.addEventListener('change', () => {
+      st.recado = r.value === 'livre' ? 'livre' : +r.value; guardar();
+    }));
+    const ta = card.querySelector('textarea');
+    ta.addEventListener('input', () => { st.recadoLivre = ta.value; if (ta.value.trim()) { st.recado = 'livre'; card.querySelector(`input[name="r-${d.id}"][value="livre"]`).checked = true; } guardar(); });
+    ta.addEventListener('click', e => e.preventDefault());
+    const aviso = card.querySelector('.aviso');
+    card.querySelectorAll('input[type=checkbox]:not([value=livre])').forEach(c => c.addEventListener('change', () => {
+      st.falas = [...card.querySelectorAll('input[type=checkbox]:not([value=livre]):checked')].map(x => +x.value);
+      aviso.classList.toggle('on', !st.falas.length && !st.falaLivre.trim()); guardar();
+    }));
+    const livre = card.querySelector('input[type=text]'), marcaLivre = card.querySelector('input[value=livre][type=checkbox]');
+    livre.addEventListener('input', () => { st.falaLivre = livre.value; marcaLivre.checked = !!livre.value.trim(); aviso.classList.toggle('on', !st.falas.length && !st.falaLivre.trim()); guardar(); });
+    livre.addEventListener('click', e => e.preventDefault());
+    lista.appendChild(card);
+  }
+}
+render();
+
+document.getElementById('salvar').onclick = () => {
+  const saida = {};
+  for (const d of DADOS) {
+    const st = estado[d.id] || padrao(d), todas = [...d.falas, ...d.novas];
+    const recado = st.recado === 'livre' && st.recadoLivre.trim() ? st.recadoLivre.trim() : d.recados[st.recado === 'livre' ? 0 : st.recado];
+    const falas = st.falas.map(i => todas[i]);
+    if (st.falaLivre.trim()) falas.push(st.falaLivre.trim());
+    saida[d.id] = { recado, falas: falas.length ? falas : d.falas };
+  }
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([JSON.stringify(saida, null, 2)], { type: 'application/json' }));
+  a.download = 'falas.json'; a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+};
+document.getElementById('limpar').onclick = () => { estado = {}; guardar(); render(); };
+</script>
+</body>
+</html>
