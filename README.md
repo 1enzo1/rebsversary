@@ -17,4 +17,7 @@ Tudo fica no objeto `CONFIG`, no fim do `index.html`:
 - `musicas`: mp3 dentro de `musicas/` (veja `musicas/LEIA-ME.txt`)
 - `gifs`: GIFs sem fundo em `gifs/` ou links diretos (veja `gifs/LEIA-ME.txt`)
 
-O botão ⚙ da página testa GIFs e links ao vivo. Use "gerar config" para copiar o resultado para o `CONFIG`.
+A música toca a playlist do `CONFIG.spotify` em ordem aleatória, sempre começando por `CONFIG.primeiraDe`.
+As faixas ficam na lista `FAIXAS`, logo abaixo do `CONFIG`.
+
+`votacao.html` e `falas.html` servem para escolher GIFs, recados e falas e exportar um JSON.

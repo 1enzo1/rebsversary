@@ -107,9 +107,10 @@ button{font:inherit;color:inherit}
 @keyframes pisca{50%{opacity:.25}}
 
 /* spotify + player */
+#spotifyBox{min-height:152px;border-radius:12px;background:#000}
 #spotifyBox iframe{width:100%;border:0;border-radius:12px;display:block;background:#000}
-.sp-form{display:flex;flex-direction:column;gap:8px}
-.sp-form p{margin:0;font-size:12px;color:var(--muted);line-height:1.5}
+.sp-ctrl{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap}
+.sp-ctrl .link{padding:0}
 input[type=text]{width:100%;background:#000;border:1px solid #3a2f40;color:#fff;padding:9px 10px;font:12px 'Space Mono';border-radius:3px;outline:none}
 input[type=text]:focus{border-color:var(--pink)}
 .btn{background:#000;border:1px solid var(--pink);color:#fff;padding:8px 12px;font-family:Silkscreen;font-size:11px;cursor:pointer;border-radius:3px;box-shadow:3px 3px 0 var(--pink);transition:transform .12s, box-shadow .12s}
@@ -181,7 +182,6 @@ input[type=text]:focus{border-color:var(--pink)}
 .amigo .av{aspect-ratio:1;width:100%;margin-bottom:8px;overflow:hidden}
 .amigo b{display:block;font-family:Silkscreen;font-weight:400;font-size:12px;color:#fff}
 .amigo small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
-.amigo .rank{position:absolute;left:6px;top:6px;font-family:Silkscreen;font-size:10px;background:var(--pink);color:#000;padding:1px 5px;z-index:1}
 
 /* recados */
 .recados{margin-top:22px}
@@ -254,28 +254,6 @@ footer b{color:var(--pink2);font-weight:400}
 .vz-txt b{display:block;font-family:'Pirata One';font-weight:400;font-size:clamp(2.6rem,10vw,6rem)}
 .vz-txt small{display:block;font-family:Silkscreen;font-size:12px;margin-top:8px;color:#c9f6ff}
 
-/* ---------- painel ---------- */
-#gear{position:fixed;right:16px;bottom:16px;z-index:80;width:48px;height:48px;border-radius:50%;background:#000;border:2px solid var(--pink);
-  font-size:22px;cursor:pointer;box-shadow:0 0 18px #ff2e8866;transition:rotate .5s}
-#gear:hover{rotate:120deg}
-#painel{position:fixed;right:16px;bottom:74px;z-index:80;width:min(380px,calc(100vw - 32px));max-height:72vh;overflow:auto;
-  background:#0d0b10;border:2px solid var(--pink);box-shadow:6px 6px 0 #000,0 0 40px #ff2e8844;padding:0 16px 16px;font-size:12px}
-.pn-head{position:sticky;top:0;background:#0d0b10;display:flex;justify-content:space-between;align-items:center;padding:12px 0;font-family:Silkscreen;font-size:13px;color:var(--pink2);z-index:1}
-.pn-head button{background:none;border:0;cursor:pointer;font-size:16px}
-.pn-sec{font-family:Silkscreen;font-size:11px;color:var(--pink2);margin:16px 0 8px}
-.pn-row{display:grid;grid-template-columns:10px 92px 1fr;gap:8px;align-items:center;margin-bottom:6px}
-.pn-row span{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.dot{width:10px;height:10px;border-radius:50%;background:#ff3b5c;box-shadow:0 0 6px #ff3b5c}
-.dot.ok{background:#7dff9b;box-shadow:0 0 6px #7dff9b}
-.pn-tg{display:flex;gap:8px;align-items:center;margin:6px 0;cursor:pointer}
-.pn-tg input{accent-color:var(--pink)}
-.pn-linha{display:flex;gap:8px}
-#pnSaida{width:100%;height:150px;background:#000;color:#9fffb5;border:1px solid #3a2f40;font:11px 'Space Mono';margin-top:8px;padding:8px}
-.pn-nota{color:var(--muted);line-height:1.5;margin:6px 0}
-#toast{position:fixed;left:50%;bottom:24px;translate:-50% 0;z-index:95;background:#000;border:1px solid var(--pink);padding:10px 16px;font-family:Silkscreen;font-size:11px;
-  opacity:0;transition:opacity .3s;pointer-events:none;max-width:calc(100vw - 32px)}
-#toast.on{opacity:1}
-
 @media (max-width:820px){
   .perfil{grid-template-columns:1fr}
   .grid8{grid-template-columns:repeat(2,1fr)}
@@ -336,6 +314,7 @@ footer b{color:var(--pink2);font-weight:400}
       <div class="card">
         <div class="label">♫ ouvindo agora</div>
         <div id="spotifyBox"></div>
+        <div class="sp-ctrl"><button class="btn" id="spAleatoria">🔀 próxima aleatória</button><a class="link" id="spLink" target="_blank" rel="noopener">playlist inteira ↗</a></div>
         <div class="divisor">ou toca do computador</div>
         <div class="player" id="player">
           <div class="pl-head"><span class="eq"><i></i><i></i><i></i><i></i><i></i></span><span id="plTitulo">nenhuma música local</span></div>
@@ -373,9 +352,9 @@ footer b{color:var(--pink2);font-weight:400}
   </main>
 
   <section class="card top8">
-    <div class="label">top 8</div>
-    <h2>Top 8 da <span data-nome>Rebeca</span></h2>
-    <p class="sub">(que virou top <span id="qtdTop"></span>, porque ela merece) · clica em cada um pra ver o que acontece 👀</p>
+    <div class="label">penetras</div>
+    <h2>Migos presentes não convidados:</h2>
+    <p class="sub">clica em cada um pra ver o que acontece 👀</p>
     <div class="grid8" id="top8"></div>
   </section>
 
@@ -387,31 +366,8 @@ footer b{color:var(--pink2);font-weight:400}
   </section>
 </div>
 
-<footer>feito com <b>🖤</b>, café e My Chemical Romance no fundo · <span id="ano"></span></footer>
+<footer>feito com <b>Monster preto zero</b> e <b>blink-182</b> sem parar · 2026</footer>
 
-<button id="gear" title="painel secreto">⚙</button>
-<div id="painel" hidden>
-  <div class="pn-head"><span>⚙ painel secreto</span><button id="pnFechar" title="fechar">✕</button></div>
-
-  <div class="pn-sec">🎧 spotify</div>
-  <div class="pn-linha"><input type="text" id="pnSpotify" placeholder="link da playlist / álbum / música"><button class="btn" id="pnSpotifyOk">ok</button></div>
-
-  <div class="pn-sec">🖼️ gifs dos personagens <span style="color:var(--muted)">(caminho ou link)</span></div>
-  <p class="pn-nota">● verde = achou o GIF · ● vermelho = usando o emoji no lugar</p>
-  <div id="pnGifs"></div>
-  <label class="btn btn-file" style="display:inline-block;margin-top:8px">+ soltar GIF/PNG extra do PC<input type="file" id="pnExtra" accept="image/*" multiple hidden></label>
-
-  <div class="pn-sec">✨ efeitos</div>
-  <label class="pn-tg"><input type="checkbox" data-ef="chuva" checked> chuva de 🖤 🦇 🥀</label>
-  <label class="pn-tg"><input type="checkbox" data-ef="rastro" checked> rastro de brilho no mouse</label>
-  <label class="pn-tg"><input type="checkbox" data-ef="personagens" checked> personagens passeando</label>
-
-  <div class="pn-sec">💾 deixar fixo</div>
-  <p class="pn-nota">O que você muda aqui fica salvo só neste navegador. Pra Rebeca ver, gera o texto abaixo e cola no <b>CONFIG</b> lá no fim do arquivo.</p>
-  <div class="pn-linha"><button class="btn" id="pnCopiar">📋 gerar config</button><button class="btn" id="pnLimpar">limpar ajustes</button></div>
-  <textarea id="pnSaida" hidden readonly></textarea>
-</div>
-<div id="toast"></div>
 
 <script>
 /* =====================================================================
@@ -424,9 +380,9 @@ const CONFIG = {
   // foto dela (coloque o arquivo na mesma pasta do index.html). Deixe '' pra não usar.
   foto: 'foto.jpg',
 
-  // cole o link de uma playlist, álbum ou música do Spotify
-  // ex: 'https://open.spotify.com/playlist/xxxxxxxxxxxxxxxxxxxxxx'
-  spotify: '',
+  // playlist do Spotify: as faixas tocam em ordem aleatória (lista em FAIXAS, logo abaixo do CONFIG)
+  spotify: 'https://open.spotify.com/playlist/4hz1RpjxD4eMK2Zgc4Cr6G',
+  primeiraDe: 'blink-182', // a primeira música sorteada é sempre deste artista
 
   // músicas locais (mp3 na pasta musicas/). Tocam sozinhas quando ela clicar em "abrir".
   musicas: [
@@ -463,6 +419,110 @@ Feliz aniversário. 🖤`,
 
   marquee: ['feliz aniversário {nome}', '{idade} anos', 'rawr xD', 'não era uma fase', 'eu não sou sensível, você que não sente como eu sinto (eu sinto e te amo, tá?)', 'hoje pode tudo (menos dormir cedo)', 'parabéns, 002 ❤️'],
 };
+
+/* Faixas da playlist "on some emo shit": [id do Spotify, título, artista] */
+const FAIXAS = [
+  ["1IT0WQk5J8NsaeII8ktdlZ", "King For A Day", "Pierce The Veil, Kellin Quinn"],
+  ["2G8PweZBBwTpyP8vpNQJK2", "Caraphernelia", "Pierce The Veil"],
+  ["0JJP0IS4w0fJx01EcrfkDe", "Dear Maria, Count Me In", "All Time Low"],
+  ["50NQdrO55nqwZrDwKny5NH", "Not Good Enough For Truth In Cliché", "Escape the Fate"],
+  ["1mB7dCUM7sPyNab6R43nlj", "The Drug In Me Is You", "Falling In Reverse"],
+  ["3ouugfdFz6exFXUxu7wRvD", "If You Can't Hang", "Sleeping With Sirens"],
+  ["1Fu9o08qEKVEwzU8siVcig", "Situations", "Escape the Fate"],
+  ["7l0Lr7Tl4Gt8hQj4v3rwtf", "I'm Not A Vampire", "Falling In Reverse"],
+  ["6uSpReaIE9rsnvhmpsJClE", "Fuck You and All Your Friends", "Falling In Reverse"],
+  ["2ZhswJTKMkNNTAjrTmPhOJ", "Knives and Pens", "Black Veil Brides"],
+  ["1wFRkVclQWfMQQcaVLjmBE", "If I'm James Dean, You're Audrey Hepburn", "Sleeping With Sirens"],
+  ["4MjJlPgUYMQjvHOQq0uvOv", "Better Off Dead", "Sleeping With Sirens"],
+  ["76LGCP0g9nVknR7HD2Jjyp", "Not The American Average", "Asking Alexandria"],
+  ["01tsbILfgyMB1P3lc2cO7I", "The Final Episode (Let's Change the Channel)", "Asking Alexandria"],
+  ["582VSFPYCNvLdmXLvhoyzl", "A Prophecy", "Asking Alexandria"],
+  ["1RTYixE1DD3g3upEpmCJpa", "In The End", "Black Veil Brides"],
+  ["7scGzRwZMeHzFNuEJgnzvh", "I Won't Give In", "Asking Alexandria"],
+  ["4KOyX6IsR7kmCI82Pc7JYF", "The Death Of Me", "Asking Alexandria"],
+  ["1KTJmfwrk5pYqsi9mkY3nT", "True Friends", "Bring Me The Horizon"],
+  ["62agR37W0s0H1Xg1sUgBrz", "Killing You", "Asking Alexandria"],
+  ["45oF0uAflC04BQ6TEPe0KV", "Someone, Somewhere", "Asking Alexandria"],
+  ["0gchQwxmBWj5no8NJ8b2yH", "Sleepwalking", "Bring Me The Horizon"],
+  ["68osIGtVjM7QWVe6pazLHj", "Shadow Moses", "Bring Me The Horizon"],
+  ["0Koh9yED8UuaXvg9p5lQdB", "Go to Hell, for Heaven's Sake", "Bring Me The Horizon"],
+  ["6GoHTm0vZGTcs7I87HUIdX", "The Black", "Asking Alexandria"],
+  ["1yYE8EyuIV0rrvQ1bA2Fyf", "Happy Song", "Bring Me The Horizon"],
+  ["6o39Ln9118FKTMbM4BvcEy", "Drown", "Bring Me The Horizon"],
+  ["0xAA90OfUjpnxCw4Rf162Q", "Miles Away - feat. Kellin Quinn", "Memphis May Fire"],
+  ["769WTLxwfDPbQWl6FzXQ2h", "Fire", "Sleeping With Sirens"],
+  ["3jY2pJZvTHb4E5GeiohGUb", "To The Stage", "Asking Alexandria"],
+  ["4UJX7so2d2L2XttE5Pfwm7", "My Apocalypse", "Escape the Fate"],
+  ["5qLTzCDE84mxB0XfI5y0ud", "Dear Insanity", "Asking Alexandria"],
+  ["0cC9JOCc8noh4OlGXaBQlA", "Shadows Die", "Black Veil Brides"],
+  ["7vmrSCqKL0rJIKRxblIed2", "Breathless", "Asking Alexandria"],
+  ["4GssB27iJeqmfGxS94Tfij", "Popular Monster", "Falling In Reverse"],
+  ["5BkCDt5w0WOGgBgDC7T39i", "Drugs", "Falling In Reverse"],
+  ["5yc4CGOURXVKgSkKZ0PoLB", "Faded Out (feat. Within Temptation)", "Asking Alexandria, Within Temptation"],
+  ["0YZEYxd1oiqZRFhnnmTKKi", "Another Life", "Motionless In White"],
+  ["2NiTxIr6B5ahZfdfO8puL4", "I'm Sorry", "Drag Me Out"],
+  ["26zEMsMUCU6F9dLmTUNEBd", "The Watch Of The Buried", "Drag Me Out"],
+  ["1b0OBqaUqpblVxDyAxAyky", "Bullets in My Teeth", "Drag Me Out"],
+  ["1RXoCep9hxApPfx8UFsGZk", "Take It Out On Me", "Thousand Foot Krutch"],
+  ["0AOmbw8AwDnwXhHC3OhdVB", "Courtesy Call", "Thousand Foot Krutch"],
+  ["1qUHD9oPIMFHKpR12NY2KC", "War of Change", "Thousand Foot Krutch"],
+  ["33MnSYLvtOrbj5zwfioEiH", "Be Somebody", "Thousand Foot Krutch"],
+  ["7wdOqBy3UVKeQ1wPkHkAO1", "Complete Collapse", "Sleeping With Sirens"],
+  ["4XIlsI3Kk1ts9tVqAShi0X", "Let Me In", "Drag Me Out"],
+  ["1DaU0dIBmybT8sj7oIBsH6", "Let It Sleep", "Asking Alexandria"],
+  ["5IsSDMqDi2YmLjfx5jGDsW", "The Worst In Me", "Bad Omens"],
+  ["3lPn81PFyKvXiyHhlkwkQ4", "Doomed", "Bring Me The Horizon"],
+  ["6r7bDk4J0Okw4ezTBUQXo3", "Blasphemy", "Bring Me The Horizon"],
+  ["44sLQYgTQgGD5vCaijG8s2", "Moving On", "Asking Alexandria"],
+  ["0M3adYbGtyRHACP86dey1H", "Throne", "Bring Me The Horizon"],
+  ["4EyPadLFhtWojU7mkT5hqT", "Avalanche", "Bring Me The Horizon"],
+  ["5Gw8owErJLfkNxWCSwPQKJ", "Alone In A Room", "Asking Alexandria"],
+  ["1tbjeelOKIjolYNUNnPMAD", "Same Old War", "Our Last Night"],
+  ["0faXHILILebCGnJBPU6KJJ", "The Diary of Jane - Single Version", "Breaking Benjamin"],
+  ["2yXyz4NLTZx9CLdXfLTp5E", "I Will Not Bow", "Breaking Benjamin"],
+  ["4JXfNOePhdgMOI7KZ1L25U", "Breath", "Breaking Benjamin"],
+  ["5qMSuD0mfQVQSA0CjifBi0", "Waiting On The Sky To Change", "STARSET, Breaking Benjamin, Judge & Jury"],
+  ["6tRneEcItwpSxBtqgem5Dr", "THE DEATH OF PEACE OF MIND", "Bad Omens"],
+  ["1H4Y9uW4N0LsxJUz0VnaPJ", "Just Pretend", "Bad Omens"],
+  ["47pmY6tTSpUV8gfj7Aqoe8", "ECHO", "STARSET"],
+  ["7cJzvTM4zP6DLwE7SjaARB", "Calm Snow", "I See Stars"],
+  ["6uWgCw5aA4hr8EAvnzcsIP", "My Mistakes", "Drag Me Out"],
+  ["0xoyUiHhxVH4gwb0CRgNmg", "Like A Villain", "Bad Omens"],
+  ["3JwkRRgHtBI8RlM5hUSH28", "Dummy (with Oli Sykes of Bring Me The Horizon)", "Cheat Codes, Oli Sykes, Bring Me The Horizon"],
+  ["1u3OxJiXoYFdA0Fmd9yURC", "Limits", "Bad Omens"],
+  ["3QienJ6IMsUD8Mo24vITBg", "Stick Stickly", "Attack Attack!"],
+  ["73twCvetX8IOtkGZAgiudK", "Run Free", "Asking Alexandria"],
+  ["0pjKLGDDgo4dzTsFWLh51a", "Believe", "Asking Alexandria"],
+  ["1vhGMffxX73Lhrd10Gub1y", "Poison", "Asking Alexandria"],
+  ["73yjsVafHrOn7fQEHIbv0B", "Break Down The Walls", "Asking Alexandria"],
+  ["4701ZDhQV4CVKWvtfQheb2", "White Line Fever", "Asking Alexandria"],
+  ["0YE5MpR67mWjOkLmFjxmrP", "The Road", "Asking Alexandria"],
+  ["7a8F2PMGnYJXLUNJuTA1xW", "No Matter What", "Papa Roach"],
+  ["5W8YXBz9MTIDyrpYaCg2Ky", "Last Resort", "Papa Roach"],
+  ["4DFlUpsJOpXIJ5StT1nvCH", "If You Can't Ride Two Horses At Once...You Should Get Out Of The Circus", "Asking Alexandria"],
+  ["0SCxEUXrEWysNSALZmi1lU", "I Was Once, Possibly, Maybe, Perhaps A Cowboy King", "Asking Alexandria"],
+  ["6NlE71TbUglmKQVLhE1H8R", "Evil Eye", "Franz Ferdinand"],
+  ["2Mqw3d7zSMXLAhXyhZXv3p", "If You Have My Voodoo Doll, Give Me A Hug", "Loveless"],
+  ["4m9NfjevXsDVaLtM1kj0Sx", "crushcrushcrush", "Paramore"],
+  ["1ZLtE9tSJdaUiIJ9YoKHQe", "Decode", "Paramore"],
+  ["0UY4FvG4f9JI6kBR1BlWrZ", "That's What You Get", "Paramore"],
+  ["1Bv3h7Vc4AaYA2BcSM3rVd", "All I Wanted", "Paramore"],
+  ["63L9AjBDN3SOMbJlBkFqiZ", "Careful", "Paramore"],
+  ["47No93LxERvV6MtOAmQzHS", "Ignorance", "Paramore"],
+  ["1a9YW7fATU351ok4zWjU7a", "Brick by Boring Brick", "Paramore"],
+  ["6p9sPxEVx6Y2eiyh6JtRZD", "On Some Emo Shit", "blink-182"],
+  ["4E89wfYbGzoNolObrFhoG4", "The Only Difference Between Martyrdom and Suicide Is Press Coverage", "Panic! At The Disco"],
+  ["5cY8y2XgOfkAh4kSWLFKkz", "I Write Sins Not Tragedies", "Panic! At The Disco"],
+  ["3YD9EehnGOf88rGSZFrnHg", "Stay Together For The Kids", "blink-182"],
+  ["4LJhJ6DQS7NwE7UKtvcM52", "What's My Age Again?", "blink-182"],
+  ["3HM4NePuYAqdXpAGBk7nNz", "Always", "blink-182"],
+  ["6uDMP9Hlgy2FemC6sp9ZRt", "Boxing Day", "blink-182"],
+  ["1bvbL0HbprbpwmzwaZczr2", "Up All Night", "blink-182"],
+  ["29bWDkf8qtCmsvDWOW55CJ", "After Midnight", "blink-182"],
+  ["4M4taWkQGn3FcbH6tnH6mx", "Wishing Well", "blink-182"],
+  ["0k4jXQdPD1NkxQutE3IB1C", "Anthem", "blink-182"],
+  ["1KcmugpUozu6Llj3p5Qboa", "Obvious", "blink-182"]
+];
 
 /* =====================================================================
    PERSONAGENS — comportamento, falas e recados
@@ -508,27 +568,15 @@ const rand = (a, b) => a + Math.random() * (b - a);
 const pick = a => a[Math.floor(Math.random() * a.length)];
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
 const ease = k => k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-const store = {
-  get(k, d) { try { const v = localStorage.getItem('rebeca:' + k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
-  set(k, v) { try { localStorage.setItem('rebeca:' + k, JSON.stringify(v)); } catch (e) {} },
-  limpar() { try { Object.keys(localStorage).filter(k => k.startsWith('rebeca:')).forEach(k => localStorage.removeItem(k)); } catch (e) {} },
-};
 const reduzido = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-const gifs = { ...CONFIG.gifs, ...store.get('gifs', {}) };
-let spotifyURL = store.get('spotify', '') || CONFIG.spotify;
-const efeitos = { chuva: true, rastro: !reduzido, personagens: true, ...store.get('efeitos', {}) };
-
-function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.classList.add('on');
-  clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.remove('on'), 2600);
-}
+const gifs = CONFIG.gifs;
+const efeitos = { chuva: true, rastro: !reduzido, personagens: true };
 
 /* ---------- textos ---------- */
 document.querySelectorAll('[data-nome]').forEach(e => e.textContent = CONFIG.nome);
 document.querySelectorAll('[data-idade]').forEach(e => e.textContent = CONFIG.idade);
 document.title = `Feliz Aniversário, ${CONFIG.nome} 🖤`;
-$('#ano').textContent = new Date().getFullYear();
 $('#assinatura').textContent = CONFIG.assinatura;
 {
   const frases = CONFIG.marquee.map(f => f.replace('{nome}', CONFIG.nome).replace('{idade}', CONFIG.idade));
@@ -965,22 +1013,21 @@ addEventListener('pointermove', e => {
   add({ ch: pick(['✦','✧','⋆','🖤']), cor: pick(['#ff2e88','#ff7ab8','#c6a6ff']), x: e.clientX + rand(-4, 4), y: e.clientY + rand(-4, 4), vx: rand(-20, 20), vy: rand(10, 40), g: 30, vida: rand(.5, .9), tam: rand(10, 16) });
 });
 document.addEventListener('click', e => {
-  if (e.target.closest('button,a,input,label,textarea,iframe,#painel,.sprite,#bolo,.amigo,#portao,#msg')) return;
+  if (e.target.closest('button,a,input,label,textarea,iframe,.sprite,#bolo,.amigo,#portao,#msg')) return;
   explosao(e.clientX, e.clientY, 9, { chars:['🖤','✦','💔'], cor:'#ff7ab8', vmin:60, vmax:200, g:220 });
 });
 
 /* =====================================================================
    TOP 8 + RECADOS
    ===================================================================== */
-$('#qtdTop').textContent = $('#qtdRecados').textContent = PERSONAGENS.length;
+$('#qtdRecados').textContent = PERSONAGENS.length;
 PERSONAGENS.forEach((p, i) => {
   const b = document.createElement('button');
   b.className = 'amigo';
-  b.innerHTML = `<span class="rank">#${i + 1}</span><div class="av"></div><b>${p.nome}</b><small>${p.origem}</small>`;
+  b.innerHTML = `<div class="av"></div><b>${p.nome}</b><small>${p.origem}</small>`;
   b.querySelector('.av').appendChild(visual(p));
   b.addEventListener('click', () => {
     const r = b.getBoundingClientRect(); coracoes(r.left + r.width / 2, r.top + r.height / 2, 10);
-    if (!efeitos.personagens) toast('liga "personagens passeando" no ⚙ pra ver a mágica');
     especialPorId(p.id);
   });
   $('#top8').appendChild(b);
@@ -996,38 +1043,49 @@ PERSONAGENS.forEach((p, i) => {
 /* =====================================================================
    MÚSICA — Spotify + player local
    ===================================================================== */
-function spotifyEmbed(url) {
-  if (!url) return null;
-  url = url.trim();
-  const m = url.match(/spotify:(playlist|album|track|artist|episode|show):([A-Za-z0-9]+)/)
-         || url.match(/open\.spotify\.com\/(?:intl-[a-z-]+\/)?(?:embed\/)?(playlist|album|track|artist|episode|show)\/([A-Za-z0-9]+)/i);
-  if (!m) return null;
-  return { src: `https://open.spotify.com/embed/${m[1].toLowerCase()}/${m[2]}?utm_source=generator&theme=0`, tipo: m[1].toLowerCase() };
+// Toca as faixas da playlist em ordem aleatória, uma por vez, pelo iFrame API do Spotify.
+// A primeira é sempre de CONFIG.primeiraDe; quando uma acaba, entra a próxima sorteada.
+const playlistId = (CONFIG.spotify.match(/playlist\/([A-Za-z0-9]+)/) || [])[1];
+$('#spLink').href = CONFIG.spotify;
+const embaralhada = (() => {
+  const f = [...FAIXAS];
+  for (let i = f.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [f[i], f[j]] = [f[j], f[i]]; }
+  const k = f.findIndex(t => t[2].toLowerCase().includes(CONFIG.primeiraDe.toLowerCase()));
+  if (k > 0) f.unshift(f.splice(k, 1)[0]);
+  return f;
+})();
+let faixaAtual = 0, sp = null, ultimaPos = 0, ultimaDur = 0, trocando = false;
+const uriDa = i => 'spotify:track:' + embaralhada[i][0];
+function tocarFaixa(i) {
+  faixaAtual = (i + embaralhada.length) % embaralhada.length;
+  ultimaPos = ultimaDur = 0; trocando = true;
+  sp.loadUri(uriDa(faixaAtual)); sp.play();
+  setTimeout(() => { trocando = false; }, 1500);
 }
-function renderSpotify(erro) {
-  const box = $('#spotifyBox'), e = spotifyEmbed(spotifyURL);
-  if (e) {
-    const alt = (e.tipo === 'track' || e.tipo === 'episode') ? 152 : 352;
-    box.innerHTML = `<iframe src="${e.src}" height="${alt}" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe><button class="link" id="spTrocar">trocar playlist</button>`;
-    $('#spTrocar').onclick = () => { spotifyURL = ''; renderSpotify(); };
-    return;
-  }
-  box.innerHTML = `<div class="sp-form">
-      <p class="${erro ? 'erro' : ''}">${erro ? 'hmm, esse link não parece do Spotify 😢' : 'cola o link de uma playlist, álbum ou música do Spotify:'}</p>
-      <input type="text" id="spInput" placeholder="https://open.spotify.com/playlist/...">
-      <button class="btn" id="spOk">colocar pra tocar ♫</button>
-    </div>`;
-  const ok = () => setSpotify($('#spInput').value);
-  $('#spOk').onclick = ok;
-  $('#spInput').addEventListener('keydown', ev => { if (ev.key === 'Enter') ok(); });
+window.onSpotifyIframeApiReady = API => {
+  const alvo = document.createElement('div'); $('#spotifyBox').appendChild(alvo);
+  API.createController(alvo, { uri: uriDa(0), width: '100%', height: 152 }, c => {
+    sp = c;
+    c.addListener('playback_update', e => {
+      const { isPaused, position, duration } = e.data;
+      if (trocando || !duration) return;
+      const fim = position >= duration - 400 || (isPaused && ultimaDur && ultimaPos >= ultimaDur - 1500);
+      if (fim) return tocarFaixa(faixaAtual + 1);
+      if (!isPaused) { ultimaPos = position; ultimaDur = duration; }
+    });
+  });
+};
+$('#spAleatoria').onclick = () => { if (sp) tocarFaixa(faixaAtual + 1); };
+{
+  const s = document.createElement('script'); s.src = 'https://open.spotify.com/embed/iframe-api/v1'; s.async = true;
+  document.head.appendChild(s);
+  // se o iFrame API não carregar, mostra a playlist normal
+  setTimeout(() => {
+    if (sp || !playlistId) return;
+    $('#spotifyBox').innerHTML = `<iframe src="https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0" height="352" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" title="Spotify"></iframe>`;
+    $('#spAleatoria').hidden = true;
+  }, 10000);
 }
-function setSpotify(url) {
-  url = (url || '').trim();
-  if (url && !spotifyEmbed(url)) return renderSpotify(true);
-  spotifyURL = url; store.set('spotify', url); renderSpotify();
-  if (url) toast('playlist salva neste navegador ♫');
-}
-renderSpotify();
 
 const audio = $('#audio'), player = $('#player');
 const fila = CONFIG.musicas.map(m => ({ titulo: m.titulo, src: m.arquivo }));
@@ -1110,54 +1168,6 @@ $('#entrar').onclick = () => {
   observarCarta();
 };
 
-/* =====================================================================
-   PAINEL SECRETO ⚙
-   ===================================================================== */
-const painel = $('#painel');
-$('#gear').onclick = () => { painel.hidden = !painel.hidden; if (!painel.hidden) montarPainel(); };
-$('#pnFechar').onclick = () => painel.hidden = true;
-
-function testarImagem(src, cb) { if (!src) return cb(false); const i = new Image(); i.onload = () => cb(true); i.onerror = () => cb(false); i.src = src; }
-function salvarGifs() { const dif = {}; for (const k in gifs) if (gifs[k] !== CONFIG.gifs[k]) dif[k] = gifs[k]; store.set('gifs', dif); }
-function montarPainel() {
-  $('#pnSpotify').value = spotifyURL;
-  const box = $('#pnGifs'); box.innerHTML = '';
-  for (const p of PERSONAGENS) {
-    const row = document.createElement('div'); row.className = 'pn-row';
-    row.innerHTML = `<span class="dot"></span><span title="${p.nome}">${p.nome}</span><input type="text" spellcheck="false" placeholder="gifs/... ou https://...gif">`;
-    const inp = row.querySelector('input'), dot = row.querySelector('.dot');
-    inp.value = gifs[p.id] || '';
-    testarImagem(gifs[p.id], ok => dot.classList.toggle('ok', ok));
-    inp.addEventListener('change', () => {
-      gifs[p.id] = inp.value.trim(); salvarGifs(); atualizarVisual(p.id);
-      testarImagem(gifs[p.id], ok => { dot.classList.toggle('ok', ok); toast(ok ? `${p.nome}: GIF carregado ✓` : `${p.nome}: não achei esse GIF`); });
-    });
-    box.appendChild(row);
-  }
-  painel.querySelectorAll('[data-ef]').forEach(c => c.checked = efeitos[c.dataset.ef]);
-}
-$('#pnSpotifyOk').onclick = () => setSpotify($('#pnSpotify').value);
-painel.querySelectorAll('[data-ef]').forEach(c => c.addEventListener('change', () => {
-  efeitos[c.dataset.ef] = c.checked; store.set('efeitos', efeitos);
-  palco.hidden = !efeitos.personagens;
-}));
-let nExtra = 0;
-$('#pnExtra').addEventListener('change', e => {
-  for (const f of e.target.files) {
-    const p = { id: 'extra' + (++nExtra), nome: f.name.replace(/\.[^.]+$/, ''), emoji: '🖤', cor: '#ff2e88',
-      comp: pick(['vagar','flutuar','teleportar','pular']), falas: ['🖤','rawr xD',`feliz aniversário, ${CONFIG.nome}!`], src: URL.createObjectURL(f) };
-    P[p.id] = p; sprites.push(new Sprite(p));
-  }
-  toast('GIF solto na tela! (some quando recarregar a página)');
-  e.target.value = '';
-});
-$('#pnCopiar').onclick = async () => {
-  const txt = `  spotify: ${JSON.stringify(spotifyURL)},\n\n  gifs: {\n${PERSONAGENS.map(p => `    ${p.id}: ${JSON.stringify(gifs[p.id] || '')},`).join('\n')}\n  },`;
-  const out = $('#pnSaida'); out.hidden = false; out.value = txt; out.select();
-  try { await navigator.clipboard.writeText(txt); toast('copiado! cola no CONFIG no lugar de spotify e gifs'); }
-  catch (err) { toast('copia o texto que apareceu aqui embaixo'); }
-};
-$('#pnLimpar').onclick = () => { store.limpar(); location.reload(); };
 </script>
 </body>
 </html>
